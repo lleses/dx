@@ -1,4 +1,4 @@
-package test;
+package cn.dx;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -38,7 +38,7 @@ public class demo {
 				.andExpect(status().isOk())//
 				.andExpect(content().string(equalTo("Hello World")));
 
-		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))//
+		mvc.perform(MockMvcRequestBuilders.get("/didi").accept(MediaType.APPLICATION_JSON))//
 				.andExpect(MockMvcResultMatchers.status().isOk())//
 				.andDo(MockMvcResultHandlers.print())//
 				.andReturn();
