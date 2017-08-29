@@ -10,11 +10,12 @@ import com.alibaba.fastjson.JSON;
 
 import cn.dx.order.entity.Product;
 
+//controller里面的方法都以json格式输出
 @RestController
 public class IndexController {
 
-	@RequestMapping("/hello")
-	public String index() {
+	@RequestMapping("/didi")
+	public String didi() {
 		List<Product> list = new ArrayList<Product>();
 		for (int i = 0; i < 3; i++) {
 			Product product = new Product();
@@ -27,4 +28,5 @@ public class IndexController {
 		String json = JSON.toJSONString(list);
 		return json;
 	}
+
 }
