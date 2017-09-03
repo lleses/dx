@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.dx.order.entity.Product;
+import cn.dc.order.entity.Product;
 
 //controller里面的方法都以json格式输出
 @RestController
