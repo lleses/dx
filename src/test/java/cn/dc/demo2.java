@@ -21,16 +21,12 @@ public class demo2 {
 		//创建10条记录
 		for (int i = 0; i < 14; i++) {
 			Order order = new Order();
-			//order.setId(Long.valueOf(i + 5));
 			order.setPrice(i + 6);
 			orderRepository.save(order);
 		}
 
 		//		Order findOne = orderRepository.findOne(3l);
 		//		System.out.println(findOne.toString());
-		
-		
-		
 
 	}
 
