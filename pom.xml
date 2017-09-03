@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>cn.dx</groupId>
-	<artifactId>dx</artifactId>
+	<groupId>cn.dc</groupId>
+	<artifactId>dc</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>cn.dx</name>
+	<name>cn.dc</name>
 	<description>The first Spring Boot project</description>
 
 	<parent>
