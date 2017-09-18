@@ -1,38 +1,50 @@
 package cn.dc.commodity.domain;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 商品
+ */
 @Entity
-@Table(name = "t_commodity")
+@Table(name = "commodity")
 public class Commodity {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 	@Column(name = "name")
 	private String name;
-	@Column(name = "type")
-	private int type;
 	@Column(name = "remark")
 	private String remark;
+	/** 价格类型 **/
+	@Column(name = "price_type")
+	private String priceType;
+	/** 原价 **/
 	@Column(name = "price")
-	private int price;
+	private BigDecimal price;
+	/** 会员价 **/
+	@Column(name = "member_price")
+	private BigDecimal memberPrice;
+	@Column(name = "commodity_type_id")
+	private int commodityTypeId;
 
 	/**
 	 * 
 	 */
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	/**
 	 * 
 	 */
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -53,20 +65,6 @@ public class Commodity {
 	/**
 	 * 
 	 */
-	public int getType() {
-		return type;
-	}
-
-	/**
-	 * 
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	/**
-	 * 
-	 */
 	public String getRemark() {
 		return remark;
 	}
@@ -78,38 +76,36 @@ public class Commodity {
 		this.remark = remark;
 	}
 
-	/**
-	 * 
-	 */
-	public int getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	/**
-	 * 
-	 */
-	public void setPrice(int price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Commodity [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append(", remark=");
-		builder.append(remark);
-		builder.append(", price=");
-		builder.append(price);
-		builder.append("]");
-		return builder.toString();
+	public BigDecimal getMemberPrice() {
+		return memberPrice;
+	}
+
+	public void setMemberPrice(BigDecimal memberPrice) {
+		this.memberPrice = memberPrice;
+	}
+
+	public int getCommodityTypeId() {
+		return commodityTypeId;
+	}
+
+	public void setCommodityTypeId(int commodityTypeId) {
+		this.commodityTypeId = commodityTypeId;
+	}
+
+	public String getPriceType() {
+		return priceType;
+	}
+
+	public void setPriceType(String priceType) {
+		this.priceType = priceType;
 	}
 
 }

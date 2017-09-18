@@ -6,21 +6,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 商品类别
+ */
 @Entity
-@Table(name = "t_commodity_type")
+@Table(name = "commodity_type")
 public class CommodityType {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 	@Column(name = "name")
 	private String name;
+	/** 排序号码 **/
+	@Column(name = "serial_num")
+	private Integer serialNum;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -30,6 +36,14 @@ public class CommodityType {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Integer getSerialNum() {
+		return serialNum;
+	}
+
+	public void setSerialNum(Integer serialNum) {
+		this.serialNum = serialNum;
 	}
 
 }

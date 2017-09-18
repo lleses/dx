@@ -14,7 +14,7 @@ public class CommodityTypeService {
 	@Autowired
 	private CommodityTypeRepository commodityTypeRepository;
 
-	public void add(CommodityType commodityType) {
+	public void save(CommodityType commodityType) {
 		commodityTypeRepository.save(commodityType);
 	}
 
