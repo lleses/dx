@@ -88,26 +88,6 @@ public class IdUtils {
 	/**
 	 * 根据当前时间生成20位ID
 	 * 
-	 * @see #id20()
-	 * @return yyyyMMddHHmmssSSS+ranNum(3)
-	 */
-	public static String nowId20() {
-		return secId(20);
-	}
-
-	/**
-	 * 根据当前时间生成32位ID
-	 * 
-	 * @see #id32()
-	 * @return yyyyMMddHHmmssSSS+ranNum(15)
-	 */
-	public static String nowId32() {
-		return secId(32);
-	}
-
-	/**
-	 * 根据当前时间生成20位ID
-	 * 
 	 * @return yyyyMMddHHmmssSSS+ranNum(3)
 	 */
 	public static String id20() {

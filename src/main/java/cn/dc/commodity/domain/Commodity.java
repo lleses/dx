@@ -33,6 +33,9 @@ public class Commodity {
 	private BigDecimal memberPrice;
 	@Column(name = "commodity_type_id")
 	private int commodityTypeId;
+	/** 图片路径 **/
+	@Column(name = "img_path")
+	private String imgPath;
 
 	/**
 	 * 
@@ -106,6 +109,20 @@ public class Commodity {
 
 	public void setPriceType(String priceType) {
 		this.priceType = priceType;
+	}
+
+	/**
+	 * 
+	 */
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	/**
+	 * 
+	 */
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
 	}
 
 }

@@ -1,5 +1,6 @@
 package cn.dc.commodity.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +43,24 @@ public class CommodityTypeController {
 		return json;
 	}
 
+	@RequestMapping("del")
+	public String del(HttpServletRequest request, CommodityType commodityType) {
+		commodityTypeDao.delete(commodityType);
+		List<CommodityType> arr = commodityTypeDao.findAll();
+		String json = JSON.toJSONString(arr);
+		return json;
+	}
+
 	@RequestMapping("init_data")
-	public String initData(HttpServletRequest request) {
+	public String initData(HttpServletRequest request, Integer commodityTypeId) {
 		List<CommodityType> types = commodityTypeDao.findAll();
-		List<Commodity> commoditys = commodityDao.findAll();
+		List<Commodity> commoditys = new ArrayList<Commodity>();
+		if (types.size() > 0) {
+			if (commodityTypeId == null) {
+				commodityTypeId = types.get(0).getId();
+			}
+			commoditys = commodityDao.findByCommodityTypeId(commodityTypeId);
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("types", types);
 		map.put("commoditys", commoditys);
