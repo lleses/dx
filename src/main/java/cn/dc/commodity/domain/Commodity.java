@@ -36,6 +36,8 @@ public class Commodity {
 	/** 图片路径 **/
 	@Column(name = "img_path")
 	private String imgPath;
+	/** 已卖出的数量 **/
+	private int num;
 
 	/**
 	 * 
@@ -123,6 +125,20 @@ public class Commodity {
 	 */
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
+	}
+
+	/**
+	 * 
+	 */
+	public int getNum() {
+		return num;
+	}
+
+	/**
+	 * 
+	 */
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

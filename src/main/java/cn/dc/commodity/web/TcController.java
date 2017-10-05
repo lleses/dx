@@ -58,6 +58,13 @@ public class TcController {
 		return json;
 	}
 
+	@RequestMapping("get")
+	public String get(HttpServletRequest request, int id) {
+		Tc tc = tcDao.findById(id);
+		String json = JSON.toJSONString(tc);
+		return json;
+	}
+
 	/** 上传图片 **/
 	@RequestMapping("upload_img")
 	public String uploadImg(@RequestParam("file") MultipartFile file) {
