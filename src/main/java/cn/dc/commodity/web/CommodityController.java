@@ -42,7 +42,6 @@ public class CommodityController {
 		commodityDao.save(commodity);
 		return "1";
 	}
-	
 
 	@RequestMapping("del")
 	public String del(HttpServletRequest request, int id) {

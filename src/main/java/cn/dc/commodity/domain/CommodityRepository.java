@@ -11,4 +11,7 @@ public interface CommodityRepository extends JpaRepository<Commodity, Long> {
 	Commodity findById(int id);
 
 	List<Commodity> findByCommodityTypeId(int id);
+
+	//TODO 准备删
+	List<Commodity> findByNumGreaterThan(int num);
 }

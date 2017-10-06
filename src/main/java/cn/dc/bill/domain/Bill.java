@@ -1,5 +1,8 @@
-package cn.dc.commodity.domain;
+package cn.dc.bill.domain;
 
+import java.math.BigDecimal;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,10 +18,12 @@ public class Bill {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	/** 是否临时已经支付 **/
-	private boolean isPay;
 	/** 用户id **/
+	@Column(name = "user_id")
 	private String userId;
+	/** 金额 **/
+	@Column(name = "money")
+	private BigDecimal money;
 
 	/**
 	 * 
@@ -37,20 +42,6 @@ public class Bill {
 	/**
 	 * 
 	 */
-	public boolean isPay() {
-		return isPay;
-	}
-
-	/**
-	 * 
-	 */
-	public void setPay(boolean isPay) {
-		this.isPay = isPay;
-	}
-
-	/**
-	 * 
-	 */
 	public String getUserId() {
 		return userId;
 	}
@@ -60,6 +51,20 @@ public class Bill {
 	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	/**
+	 * 
+	 */
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	/**
+	 * 
+	 */
+	public void setMoney(BigDecimal money) {
+		this.money = money;
 	}
 
 }

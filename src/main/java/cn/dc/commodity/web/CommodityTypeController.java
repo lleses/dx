@@ -52,7 +52,7 @@ public class CommodityTypeController {
 	}
 
 	@RequestMapping("init_data")
-	public String initData(HttpServletRequest request, Integer commodityTypeId) {
+	public String initData(HttpServletRequest request, Integer commodityTypeId, Integer userId) {
 		List<CommodityType> types = commodityTypeDao.findAll();
 		List<Commodity> commoditys = new ArrayList<Commodity>();
 		if (types.size() > 0) {

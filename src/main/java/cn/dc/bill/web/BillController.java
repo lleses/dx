@@ -1,4 +1,4 @@
-package cn.dc.commodity.web;
+package cn.dc.bill.web;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.dc.commodity.domain.Bill;
-import cn.dc.commodity.domain.BillRepository;
+import cn.dc.bill.domain.Bill;
+import cn.dc.bill.domain.BillRepository;
 
 /**
  * 账单
@@ -25,9 +25,4 @@ public class BillController {
 		return "1";
 	}
 
-	@RequestMapping("find_by_userId_and_isPay")
-	public String findByUserIdAndIsPay(HttpServletRequest request) {
-		billDao.findByUserIdAndIsPay("1", false);
-		return "1";
-	}
 }
