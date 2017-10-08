@@ -1,7 +1,8 @@
-package cn.dc.cart.domain;
+package cn.dc.bill.domain;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,15 +14,18 @@ import cn.dc.commodity.domain.Commodity;
 import cn.dc.user.domain.User;
 
 /**
- * 购物车
+ * 订购关系
  */
 @Entity
-@Table(name = "shopping_cart")
-public class ShoppingCart {
+@Table(name = "t_order")
+public class Order {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+	/** 账单id **/
+	@Column(name = "bill_id")
+	private int billId;
 	/** 用户 **/
 	@OneToOne
 	@JoinColumn(name = "user_id")
@@ -47,6 +51,20 @@ public class ShoppingCart {
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * 
+	 */
+	public int getBillId() {
+		return billId;
+	}
+
+	/**
+	 * 
+	 */
+	public void setBillId(int billId) {
+		this.billId = billId;
 	}
 
 	/**

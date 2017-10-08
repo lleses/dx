@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 商品
@@ -38,6 +39,16 @@ public class Commodity {
 	private String imgPath;
 	/** 已卖出的数量 **/
 	private int num;
+	/** 该商品订购数量 **/
+	@Transient
+	private int orderNum;
+
+	public Commodity() {
+	}
+
+	public Commodity(Integer id) {
+		this.id = id;
+	}
 
 	/**
 	 * 
@@ -139,6 +150,20 @@ public class Commodity {
 	 */
 	public void setNum(int num) {
 		this.num = num;
+	}
+
+	/**
+	 * 
+	 */
+	public int getOrderNum() {
+		return orderNum;
+	}
+
+	/**
+	 * 
+	 */
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
 	}
 
 }

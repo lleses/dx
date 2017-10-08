@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 
+import cn.dc.cart.domain.ShoppingCart;
+import cn.dc.cart.domain.ShoppingCartRepository;
 import cn.dc.commodity.domain.Commodity;
 import cn.dc.commodity.domain.CommodityRepository;
 import cn.dc.commodity.domain.CommodityType;
@@ -29,6 +31,8 @@ public class CommodityTypeController {
 	private CommodityTypeRepository commodityTypeDao;
 	@Autowired
 	private CommodityRepository commodityDao;
+	@Autowired
+	private ShoppingCartRepository shoppingCartDao;
 
 	@RequestMapping("add")
 	public String add(HttpServletRequest request, CommodityType commodityType) {
@@ -52,19 +56,46 @@ public class CommodityTypeController {
 	}
 
 	@RequestMapping("init_data")
-	public String initData(HttpServletRequest request, Integer commodityTypeId, Integer userId) {
+	public String initData(HttpServletRequest request, Integer userId) {
 		List<CommodityType> types = commodityTypeDao.findAll();
-		List<Commodity> commoditys = new ArrayList<Commodity>();
-		if (types.size() > 0) {
-			if (commodityTypeId == null) {
-				commodityTypeId = types.get(0).getId();
-			}
-			commoditys = commodityDao.findByCommodityTypeId(commodityTypeId);
-		}
+		List<Commodity> commoditys = getCommoditys(types);
+		List<ShoppingCart> shoppingCarts = shoppingCartDao.findByUserId(userId);
+		commoditys = setOrderNum(commoditys, shoppingCarts);
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("types", types);
 		map.put("commoditys", commoditys);
+		map.put("shoppingCarts", shoppingCarts);
 		String json = JSON.toJSONString(map);
+		return json;
+	}
+
+	private List<Commodity> getCommoditys(List<CommodityType> types) {
+		List<Commodity> commoditys = new ArrayList<Commodity>();
+		if (types.size() > 0) {
+			Integer commodityTypeId = types.get(0).getId();
+			commoditys = commodityDao.findByCommodityTypeId(commodityTypeId);
+		}
+		return commoditys;
+	}
+
+	private List<Commodity> setOrderNum(List<Commodity> commoditys, List<ShoppingCart> shoppingCarts) {
+		for (ShoppingCart cart : shoppingCarts) {
+			for (Commodity com : commoditys) {
+				if (com.getId() == cart.getCommodity().getId()) {
+					com.setOrderNum(cart.getNum());
+				}
+			}
+		}
+		return commoditys;
+	}
+
+	@RequestMapping("selType")
+	public String selType(HttpServletRequest request, Integer commodityTypeId, Integer userId) {
+		List<Commodity> commoditys = commodityDao.findByCommodityTypeId(commodityTypeId);
+		List<ShoppingCart> shoppingCarts = shoppingCartDao.findByUserId(userId);
+		commoditys = setOrderNum(commoditys, shoppingCarts);
+		String json = JSON.toJSONString(commoditys);
 		return json;
 	}
 

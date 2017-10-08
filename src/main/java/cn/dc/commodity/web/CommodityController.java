@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,8 +30,10 @@ import cn.dc.utils.IdUtils;
 @RequestMapping("commodity")
 public class CommodityController {
 	// 文件上传后的路径
-	public final String FILE_PATH = "/Users/didi/Temp/dcFile/";
-	public final String FILE_URL_PATH = "/dcFile/";
+	@Value("${dc.filePath}")
+	private String FILE_PATH;
+	@Value("${dc.fileUrlPath}")
+	private String FILE_URL_PATH;
 
 	@Autowired
 	private CommodityRepository commodityDao;
