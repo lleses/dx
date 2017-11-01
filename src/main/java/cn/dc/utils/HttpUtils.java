@@ -16,11 +16,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Http工具类
  * 
- * @author HeHongxin
- * @date 2014-7-29
- * 
  */
-
 public class HttpUtils {
 
 	/** 日志 */
