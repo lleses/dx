@@ -37,6 +37,12 @@ public class BillController {
 	@Autowired
 	private UserRepository userDao;
 
+	//TODO 准备删
+	@RequestMapping("list2")
+	public String list2(HttpServletRequest request) {
+		return "123";
+	}
+	
 	@RequestMapping("list")
 	public String list(HttpServletRequest request, int userId) {
 		List<Bill> bills = billDao.findAll();
