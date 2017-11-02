@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dc.common.redis.RedisUtil;
-import cn.dc.utils.HttpRequest;
+import cn.dc.common.utils.HttpUtils;
 import cn.dc.wx.utils.WxConfig;
 
 @Service
@@ -28,7 +28,7 @@ public class WxService {
 		sb.append("&secret=").append(WxConfig.APP_SECRET);
 		sb.append("&js_code=").append(wxCode);
 		sb.append("&grant_type=").append(WxConfig.GRANT_TYPE);
-		String res = HttpRequest.sendGet(WxConfig.SESSION_URL, sb.toString());
+		String res = HttpUtils.sendGet(WxConfig.SESSION_URL, sb.toString());
 		if (res == null || res.equals("")) {
 			return null;
 		}
