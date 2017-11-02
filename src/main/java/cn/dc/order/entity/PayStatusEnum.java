@@ -5,7 +5,10 @@ package cn.dc.order.entity;
  */
 public enum PayStatusEnum {
 
-	WZF("未支付"), YZF("已支付");
+	/** 未支付 **/
+	WZF("未支付"),
+	/** 已支付 **/
+	YZF("已支付");
 
 	private String val;
 
