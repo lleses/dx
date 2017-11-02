@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import cn.dc.utils.IdUtils;
+import cn.dc.common.utils.IdUtils;
 
 /**
  * 订单
