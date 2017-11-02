@@ -1,5 +1,8 @@
 package cn.dc.wx.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,15 +10,14 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dc.common.redis.RedisUtil;
 import cn.dc.common.utils.HttpUtils;
 import cn.dc.wx.utils.WxConfig;
 
 @Service
 public class WxService {
 
-	@Autowired
-	private RedisUtil redisUtil;
+	//	@Autowired
+	//	private RedisUtil redisUtil;
 
 	/**
 	 * 根据小程序登录返回的code获取openid和session_key
@@ -42,11 +44,13 @@ public class WxService {
 	 * @param expires		会话有效期, 以秒为单位, 例如2592000代表会话有效期为30天
 	 * @return
 	 */
-	public String create3rdSession(String wxOpenId, String wxSessionKey, Long expires) {
+	public String create3rdSession(HttpServletRequest request, String wxOpenId, String wxSessionKey, Long expires) {
 		String thirdSessionKey = RandomStringUtils.randomAlphanumeric(64);
 		StringBuffer sb = new StringBuffer();
 		sb.append(wxSessionKey).append("#").append(wxOpenId);
-		redisUtil.add(thirdSessionKey, expires, sb.toString());
+		HttpSession session = request.getSession();
+		session.setAttribute(thirdSessionKey, sb.toString());
+		//redisUtil.add(thirdSessionKey, expires, sb.toString());
 		return thirdSessionKey;
 	}
 }

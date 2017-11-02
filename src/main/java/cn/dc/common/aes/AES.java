@@ -17,10 +17,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+public class AES {
+	public static boolean initialized = false;
 
-public class AES {  
-	public static boolean initialized = false;  
-	
 	/**
 	 * AES解密
 	 * @param content 密文
@@ -33,14 +32,14 @@ public class AES {
 		try {
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
 			Key sKeySpec = new SecretKeySpec(keyByte, "AES");
-			
+
 			cipher.init(Cipher.DECRYPT_MODE, sKeySpec, generateIV(ivByte));// 初始化 
 			byte[] result = cipher.doFinal(content);
 			return result;
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();  
+			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();  
+			e.printStackTrace();
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
@@ -55,18 +54,19 @@ public class AES {
 			e.printStackTrace();
 		}
 		return null;
-	}  
-	
-	public static void initialize(){  
-        if (initialized) return;  
-		Security.addProvider(new BouncyCastleProvider());  
-        initialized = true;  
-    }
-	
+	}
+
+	public static void initialize() {
+		if (initialized)
+			return;
+		Security.addProvider(new BouncyCastleProvider());
+		initialized = true;
+	}
+
 	//生成iv  
-    public static AlgorithmParameters generateIV(byte[] iv) throws Exception{  
-        AlgorithmParameters params = AlgorithmParameters.getInstance("AES");  
-        params.init(new IvParameterSpec(iv));  
-        return params;  
-    }  
-}  
+	public static AlgorithmParameters generateIV(byte[] iv) throws Exception {
+		AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
+		params.init(new IvParameterSpec(iv));
+		return params;
+	}
+}

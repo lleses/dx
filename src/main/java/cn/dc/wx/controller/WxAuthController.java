@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dc.common.aes.AES;
-import cn.dc.common.redis.RedisUtil;
 import cn.dc.wx.service.WxService;
 
 /**
@@ -25,44 +27,44 @@ import cn.dc.wx.service.WxService;
 public class WxAuthController {
 
 	//TODO 先禁用,准备删
-//	@Value("${dc.wxUrl}")
-//	private String WX_URL;
-//	@Value("${dc.appId}")
-//	private String APP_ID;
-//	@Value("${dc.appSecret}")
-//	private String APP_SECRET;
+	//	@Value("${dc.wxUrl}")
+	//	private String WX_URL;
+	//	@Value("${dc.appId}")
+	//	private String APP_ID;
+	//	@Value("${dc.appSecret}")
+	//	private String APP_SECRET;
 
 	@Autowired
 	private WxService wxService;
-	@Autowired
-	private RedisUtil redisUtil;
-//	@Autowired
-//	private UserRepository userDao;
+	//	@Autowired
+	//	private RedisUtil redisUtil;
+	//	@Autowired
+	//	private UserRepository userDao;
 
 	//TODO 先禁用,准备删
-//	@RequestMapping("check")
-//	public String check(HttpServletRequest request, String code, String name) {
-//		String url = WX_URL + "?appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code + "&grant_type=authorization_code";
-//		String rs = HttpUtils.get(url);
-//
-//		JSONObject ob = JSON.parseObject(rs);
-//		//String sessionKey = ob.getString("session_key");
-//		String openid = ob.getString("openid");
-//
-//		User user = userDao.findByOpenid(openid);
-//		if (user == null) {
-//			user = new User();
-//			user.setOpenid(openid);
-//			user.setName(name);
-//			userDao.save(user);
-//		}
-//
-//		HttpSession session = request.getSession(false);
-//		if (session != null) {
-//			session.setAttribute("user" + user.getId(), user);
-//		}
-//		return user.getId().toString();
-//	}
+	//	@RequestMapping("check")
+	//	public String check(HttpServletRequest request, String code, String name) {
+	//		String url = WX_URL + "?appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code + "&grant_type=authorization_code";
+	//		String rs = HttpUtils.get(url);
+	//
+	//		JSONObject ob = JSON.parseObject(rs);
+	//		//String sessionKey = ob.getString("session_key");
+	//		String openid = ob.getString("openid");
+	//
+	//		User user = userDao.findByOpenid(openid);
+	//		if (user == null) {
+	//			user = new User();
+	//			user.setOpenid(openid);
+	//			user.setName(name);
+	//			userDao.save(user);
+	//		}
+	//
+	//		HttpSession session = request.getSession(false);
+	//		if (session != null) {
+	//			session.setAttribute("user" + user.getId(), user);
+	//		}
+	//		return user.getId().toString();
+	//	}
 
 	/**
 	 * 根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
@@ -70,12 +72,12 @@ public class WxAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "getSession", method = RequestMethod.GET)
-	public String createSssion(String wxCode) {
+	public String createSssion(HttpServletRequest request, String wxCode) {
 		JSONObject wxSession = wxService.getWxSession(wxCode);
 		String wxOpenId = wxSession.getString("openid");
 		String wxSessionKey = wxSession.getString("session_key");
 		Long expires = wxSession.getLong("expires_in");
-		String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, expires);
+		String thirdSession = wxService.create3rdSession(request, wxOpenId, wxSessionKey, expires);
 		return thirdSession;
 	}
 
@@ -87,8 +89,10 @@ public class WxAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "checkUserInfo", method = RequestMethod.GET)
-	public Boolean checkUserInfo(String rawData, String signature, String sessionId) {
-		Object wxSessionObj = redisUtil.get(sessionId);
+	public Boolean checkUserInfo(HttpServletRequest request, String rawData, String signature, String sessionId) {
+		//		Object wxSessionObj = redisUtil.get(sessionId);
+		HttpSession session = request.getSession();
+		Object wxSessionObj = session.getAttribute(sessionId);
 		if (null == wxSessionObj) {
 			return false;
 		}
@@ -111,9 +115,11 @@ public class WxAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET)
-	public String decodeUserInfo(String encryptedData, String iv, String sessionId) {
+	public String decodeUserInfo(HttpServletRequest request, String encryptedData, String iv, String sessionId) {
 		//从缓存中获取session_key
-		Object wxSessionObj = redisUtil.get(sessionId);
+		//		Object wxSessionObj = redisUtil.get(sessionId);
+		HttpSession session = request.getSession();
+		Object wxSessionObj = session.getAttribute(sessionId);
 		if (null == wxSessionObj) {
 			return "-1";
 		}
