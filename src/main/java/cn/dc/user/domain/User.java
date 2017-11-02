@@ -17,11 +17,10 @@ public class User {
 	@GeneratedValue
 	private Integer id;
 	/** 用户名称 **/
-	@Column(name = "name")
 	private String name;
 	/** 用户唯一标识 **/
-	@Column(name = "openid")
 	private String openid;
+	private String sessionId;
 
 	/**
 	 * 
@@ -63,6 +62,14 @@ public class User {
 	 */
 	public void setOpenid(String openid) {
 		this.openid = openid;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 
 }
