@@ -2,6 +2,8 @@ package cn.dc.order.service;
 
 import java.math.BigDecimal;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +21,15 @@ public class OrderService {
 	private OrderRecordRepository orderRecordDao;
 	@Autowired
 	private OrderRelationshipRepository orderRelationshipDao;
-	
-	
-	
 
+	@Transactional
 	public Order createOrder(String phone, String address, BigDecimal money) {
 		Order order = new Order(phone, address, money);
 		orderDao.save(order);
+		
+		
+		
+		
 		return order;
 	}
 
