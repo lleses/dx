@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSON;
 
 import cn.dc.commodity.domain.Tc;
 import cn.dc.commodity.domain.TcRepository;
-import cn.dc.utils.IdUtils;
+import cn.dc.common.utils.IdUtils;
 
 /**
  * 商品

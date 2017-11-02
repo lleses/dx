@@ -21,7 +21,7 @@ import cn.dc.commodity.domain.Commodity;
 import cn.dc.commodity.domain.CommodityRepository;
 import cn.dc.commodity.domain.CommodityType;
 import cn.dc.commodity.domain.CommodityTypeRepository;
-import cn.dc.utils.IdUtils;
+import cn.dc.common.utils.IdUtils;
 
 /**
  * 商品
