@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import cn.dc.order.entity.OrderRecord;
 
-public interface OrderRecordRepository extends JpaRepository<OrderRecord, Long> {
+public interface OrderRecordRepository extends JpaRepository<OrderRecord, String> {
 
 }

@@ -21,8 +21,8 @@ public class OrderTest {
 
 	@Test
 	public void test() throws Exception {
-		Order order = new Order("13416000677", "gdzs", new BigDecimal(1));
-		orderRepository.save(order);
+//		Order order = new Order("13416000677", "gdzs", new BigDecimal(1));
+//		orderRepository.save(order);
 	}
 
 }

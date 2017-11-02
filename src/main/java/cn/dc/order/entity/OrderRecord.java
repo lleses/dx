@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 public class OrderRecord {
 
 	/** 订单ID **/
-	private Integer orderId;
+	private String orderId;
 	/** 订单状态 **/
 	private OrderStatusEnum orderStatus;
 	/** 创建时间 */
@@ -29,11 +29,11 @@ public class OrderRecord {
 		return new SimpleDateFormat("yyyy-MM-dd").format(ct);
 	}
 
-	public Integer getOrderId() {
+	public String getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Integer orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 

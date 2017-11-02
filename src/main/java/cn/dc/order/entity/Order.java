@@ -34,15 +34,18 @@ public class Order {
 	private OrderStatusEnum orderStatus;
 	/** 创建时间 */
 	private Date ct;
+	/** 店铺ID */
+	private String storeId;
 
 	public Order() {
 	}
 
-	public Order(String phone, String address, BigDecimal money) {
+	public Order(String phone, String address, BigDecimal money,String storeId) {
 		//this.id = IdUtils.id32();
 		this.phone = phone;
 		this.address = address;
 		this.money = money;
+		this.storeId = storeId;
 		this.payStatus = PayStatusEnum.WZF;//未支付 
 		this.orderStatus = OrderStatusEnum.DSL;//用户已下单,等待受理
 	}
@@ -110,5 +113,14 @@ public class Order {
 	public void setCt(Date ct) {
 		this.ct = ct;
 	}
+
+	public String getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(String storeId) {
+		this.storeId = storeId;
+	}
+	
 
 }
