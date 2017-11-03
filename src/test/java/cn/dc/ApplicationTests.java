@@ -20,8 +20,20 @@ public class ApplicationTests {
 
 	@Test
 	public void test() throws Exception {
-//		Order order = new Order("13416000677", "gdzs", new BigDecimal(1));
-//		orderRepository.save(order);
+		update();
+	}
+
+	private void add() {
+		Order order = new Order("13416000677", "gdzs", new BigDecimal(1), "1");
+		orderRepository.save(order);
+	}
+
+	private void update() {
+		String id = "20171103204109639995085440747342";
+		Order order = orderRepository.findById(id);
+		System.out.println("111");
+		order.setAddress("hello");
+		orderRepository.save(order);
 	}
 
 }
