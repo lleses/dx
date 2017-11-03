@@ -13,7 +13,7 @@ import javax.persistence.Transient;
  * 商品
  */
 @Entity
-@Table(name = "commodity")
+@Table(name = "t_commodity")
 public class Commodity {
 
 	@Id

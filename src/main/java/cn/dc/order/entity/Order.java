@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -20,8 +19,7 @@ import cn.dc.common.utils.IdUtils;
 public class Order {
 
 	@Id
-	@GeneratedValue
-	private Integer id;
+	private String id;
 	/** 顾客电话 **/
 	private String phone;
 	/** 送货地址 **/
@@ -40,14 +38,15 @@ public class Order {
 	public Order() {
 	}
 
-	public Order(String phone, String address, BigDecimal money,String storeId) {
-		//this.id = IdUtils.id32();
+	public Order(String phone, String address, BigDecimal money, String storeId) {
+		this.id = IdUtils.id32();
 		this.phone = phone;
 		this.address = address;
 		this.money = money;
 		this.storeId = storeId;
 		this.payStatus = PayStatusEnum.WZF;//未支付 
 		this.orderStatus = OrderStatusEnum.DSL;//用户已下单,等待受理
+		this.ct = new Date();
 	}
 
 	/**
@@ -58,11 +57,11 @@ public class Order {
 		return new SimpleDateFormat("yyyy-MM-dd").format(ct);
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -121,6 +120,5 @@ public class Order {
 	public void setStoreId(String storeId) {
 		this.storeId = storeId;
 	}
-	
 
 }

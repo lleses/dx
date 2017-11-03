@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * 套餐
  */
 @Entity
-@Table(name = "tc")
+@Table(name = "t_tc")
 public class Tc {
 
 	@Id

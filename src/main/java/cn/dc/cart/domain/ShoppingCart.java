@@ -16,7 +16,7 @@ import cn.dc.user.domain.User;
  * 购物车
  */
 @Entity
-@Table(name = "shopping_cart")
+@Table(name = "t_shopping_cart")
 public class ShoppingCart {
 
 	@Id

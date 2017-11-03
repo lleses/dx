@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * 商品类别
  */
 @Entity
-@Table(name = "commodity_type")
+@Table(name = "t_commodity_type")
 public class CommodityType {
 
 	@Id

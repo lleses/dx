@@ -1,6 +1,5 @@
 package cn.dc.user.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +9,7 @@ import javax.persistence.Table;
  * 用户
  */
 @Entity
-@Table(name = "user")
+@Table(name = "t_user")
 public class User {
 
 	@Id
