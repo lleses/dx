@@ -1,4 +1,4 @@
-package cn.dc.cart.domain;
+package cn.dc.cart.entity;
 
 import java.math.BigDecimal;
 
@@ -10,22 +10,19 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import cn.dc.commodity.domain.Commodity;
-import cn.dc.user.domain.User;
 
 /**
- * 购物车
+ * 购物车订购关系
  */
 @Entity
-@Table(name = "t_shopping_cart")
-public class ShoppingCart {
+@Table(name = "t_cart_relationship")
+public class CartRelationship {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
-	/** 用户 **/
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	/** 购物车id **/
+	private Integer cartId;
 	/** 商品 **/
 	@OneToOne
 	@JoinColumn(name = "commodity_id")
@@ -52,15 +49,15 @@ public class ShoppingCart {
 	/**
 	 * 
 	 */
-	public User getUser() {
-		return user;
+	public Integer getCartId() {
+		return cartId;
 	}
 
 	/**
 	 * 
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setCartId(Integer cartId) {
+		this.cartId = cartId;
 	}
 
 	/**
