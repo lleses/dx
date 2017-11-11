@@ -18,8 +18,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.dc.common.aes.AES;
 import cn.dc.common.redis.RedisUtil;
-import cn.dc.user.domain.User;
-import cn.dc.user.domain.UserRepository;
+import cn.dc.user.dao.UserRepository;
+import cn.dc.user.entity.User;
 import cn.dc.wx.service.WxService;
 
 /**
@@ -28,14 +28,6 @@ import cn.dc.wx.service.WxService;
 @RestController
 @RequestMapping("wxAuth")
 public class WxAuthController {
-
-	//TODO 先禁用,准备删
-	//	@Value("${dc.wxUrl}")
-	//	private String WX_URL;
-	//	@Value("${dc.appId}")
-	//	private String APP_ID;
-	//	@Value("${dc.appSecret}")
-	//	private String APP_SECRET;
 
 	@Autowired
 	private WxService wxService;
