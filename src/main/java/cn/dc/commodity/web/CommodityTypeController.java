@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.dc.cart.domain.ShoppingCart;
-import cn.dc.cart.domain.ShoppingCartRepository;
+import cn.dc.cart.dao.CartRelationshipRepository;
+import cn.dc.cart.dao.CartRepository;
+import cn.dc.cart.entity.Cart;
+import cn.dc.cart.entity.CartRelationship;
 import cn.dc.commodity.domain.Commodity;
 import cn.dc.commodity.domain.CommodityRepository;
 import cn.dc.commodity.domain.CommodityType;
 import cn.dc.commodity.domain.CommodityTypeRepository;
+import cn.dc.common.redis.RedisUtil;
 
 /**
  * 商品类型
@@ -26,46 +29,32 @@ import cn.dc.commodity.domain.CommodityTypeRepository;
 @RestController
 @RequestMapping("commodity_type")
 public class CommodityTypeController {
-
+	@Autowired
+	private RedisUtil redisUtil;
 	@Autowired
 	private CommodityTypeRepository commodityTypeDao;
 	@Autowired
 	private CommodityRepository commodityDao;
 	@Autowired
-	private ShoppingCartRepository shoppingCartDao;
-
-	@RequestMapping("add")
-	public String add(HttpServletRequest request, CommodityType commodityType) {
-		CommodityType isNameExist = commodityTypeDao.findByName(commodityType.getName());
-		if (null != isNameExist) {
-			return "0";
-		}
-		commodityTypeDao.save(commodityType);
-
-		List<CommodityType> arr = commodityTypeDao.findAll();
-		String json = JSON.toJSONString(arr);
-		return json;
-	}
-
-	@RequestMapping("del")
-	public String del(HttpServletRequest request, CommodityType commodityType) {
-		commodityTypeDao.delete(commodityType);
-		List<CommodityType> arr = commodityTypeDao.findAll();
-		String json = JSON.toJSONString(arr);
-		return json;
-	}
+	private CartRepository cartDao;
+	@Autowired
+	private CartRelationshipRepository cartRelationshipDao;
 
 	@RequestMapping("init_data")
-	public String initData(HttpServletRequest request, Integer userId) {
-		List<CommodityType> types = commodityTypeDao.findAll();
+	public String initData(HttpServletRequest request, String sessionId, String appId) {
+		String sessionVal = (String) redisUtil.get(sessionId);
+		//TODO 不严谨
+		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		List<CommodityType> types = commodityTypeDao.findByAppId(appId);
 		List<Commodity> commoditys = getCommoditys(types);
-		List<ShoppingCart> shoppingCarts = shoppingCartDao.findByUserId(userId);
-		commoditys = setOrderNum(commoditys, shoppingCarts);
-
+		Cart cart = cartDao.findByUserId(userId);
+		if (cart != null) {
+			List<CartRelationship> cartRelationships = cartRelationshipDao.findByCartId(cart.getId());
+			commoditys = setOrderNum(commoditys, cartRelationships);
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("types", types);
 		map.put("commoditys", commoditys);
-		map.put("shoppingCarts", shoppingCarts);
 		String json = JSON.toJSONString(map);
 		return json;
 	}
@@ -79,8 +68,8 @@ public class CommodityTypeController {
 		return commoditys;
 	}
 
-	private List<Commodity> setOrderNum(List<Commodity> commoditys, List<ShoppingCart> shoppingCarts) {
-		for (ShoppingCart cart : shoppingCarts) {
+	private List<Commodity> setOrderNum(List<Commodity> commoditys, List<CartRelationship> cartRelationships) {
+		for (CartRelationship cart : cartRelationships) {
 			for (Commodity com : commoditys) {
 				if (com.getId() == cart.getCommodity().getId()) {
 					com.setOrderNum(cart.getNum());
@@ -91,16 +80,43 @@ public class CommodityTypeController {
 	}
 
 	@RequestMapping("selType")
-	public String selType(HttpServletRequest request, Integer commodityTypeId, Integer userId) {
+	public String selType(HttpServletRequest request, Integer commodityTypeId, String sessionId) {
+		String sessionVal = (String) redisUtil.get(sessionId);
+		//TODO 不严谨
+		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
 		List<Commodity> commoditys = commodityDao.findByCommodityTypeId(commodityTypeId);
-		List<ShoppingCart> shoppingCarts = shoppingCartDao.findByUserId(userId);
-		commoditys = setOrderNum(commoditys, shoppingCarts);
+		Cart cart = cartDao.findByUserId(userId);
+		if (cart != null) {
+			List<CartRelationship> cartRelationships = cartRelationshipDao.findByCartId(cart.getId());
+			commoditys = setOrderNum(commoditys, cartRelationships);
+		}
 		String json = JSON.toJSONString(commoditys);
 		return json;
 	}
 
 	@RequestMapping("getTypeNames")
-	public String getTypeNames(HttpServletRequest request) {
+	public String getTypeNames(HttpServletRequest request, String appId) {
+		List<CommodityType> arr = commodityTypeDao.findByAppId(appId);
+		String json = JSON.toJSONString(arr);
+		return json;
+	}
+
+	@RequestMapping("add")
+	public String add(HttpServletRequest request, CommodityType commodityType) {
+		CommodityType isNameExist = commodityTypeDao.findByNameAndAppId(commodityType.getName(), commodityType.getAppId());
+		if (null != isNameExist) {
+			return "0";
+		}
+		commodityTypeDao.save(commodityType);
+
+		List<CommodityType> arr = commodityTypeDao.findAll();
+		String json = JSON.toJSONString(arr);
+		return json;
+	}
+
+	@RequestMapping("del")
+	public String del(HttpServletRequest request, CommodityType commodityType) {
+		commodityTypeDao.delete(commodityType);
 		List<CommodityType> arr = commodityTypeDao.findAll();
 		String json = JSON.toJSONString(arr);
 		return json;

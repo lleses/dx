@@ -21,6 +21,8 @@ public class CommodityType {
 	/** 排序号码 **/
 	@Column(name = "serial_num")
 	private Integer serialNum;
+	/** 商家id **/
+	private String appId;
 
 	public Integer getId() {
 		return id;
@@ -44,6 +46,20 @@ public class CommodityType {
 
 	public void setSerialNum(Integer serialNum) {
 		this.serialNum = serialNum;
+	}
+
+	/**
+	 * 
+	 */
+	public String getAppId() {
+		return appId;
+	}
+
+	/**
+	 * 
+	 */
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 
 }

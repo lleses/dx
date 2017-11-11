@@ -42,6 +42,7 @@ public class Commodity {
 	/** 该商品订购数量 **/
 	@Transient
 	private int orderNum;
+	
 
 	public Commodity() {
 	}
