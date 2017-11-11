@@ -42,19 +42,42 @@ public class WxAuthController {
 	 * @return
 	 */
 	@RequestMapping(value = "createSssion", method = RequestMethod.GET)
-	public String createSssion(HttpServletRequest request, String code, String appId) {
-		JSONObject wxSession = wxService.getWxSession(code, appId);
-		String wxOpenId = wxSession.getString("openid");
-		String wxSessionKey = wxSession.getString("session_key");
-		Long expires = wxSession.getLong("expires_in");
-		User user = userDao.findByOpenid(wxOpenId);
-		if (user == null) {
-			user = new User();
-			user.setOpenid(wxOpenId);
-			userDao.save(user);
+	public String createSssion(HttpServletRequest request, String sessionId, String code, String appId) {
+		//检查是否需要请求微信,获取新的session信息
+		boolean isRequesetWx = checkIsNeedToRequestWx(sessionId);
+		if (isRequesetWx) {
+			JSONObject wxSession = wxService.getWxSession(code, appId);
+			String wxOpenId = wxSession.getString("openid");
+			String wxSessionKey = wxSession.getString("session_key");
+			Long expires = wxSession.getLong("expires_in");
+			User user = userDao.findByOpenid(wxOpenId);
+			if (user == null) {
+				user = new User();
+				user.setOpenid(wxOpenId);
+				userDao.save(user);
+			}
+			sessionId = wxService.create3rdSession(request, wxOpenId, wxSessionKey, expires, user.getId());
 		}
-		String sessionId = wxService.create3rdSession(request, wxOpenId, wxSessionKey, expires, user.getId());
 		return sessionId;
+	}
+
+	/**
+	 * 检查是否需要请求微信,获取新的session信息
+	 * 
+	 * @param sessionId
+	 * @return true:请求微信接口 false:不需要请求
+	 */
+	private boolean checkIsNeedToRequestWx(String sessionId) {
+		//初始登陆，客户端并没有传sessionId过来，所以为null
+		if (sessionId == null) {
+			return true;
+		}
+		String sessionVal = (String) redisUtil.get(sessionId);
+		//session已过期
+		if (sessionVal == null) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

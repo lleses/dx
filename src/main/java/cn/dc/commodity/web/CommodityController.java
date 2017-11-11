@@ -81,6 +81,17 @@ public class CommodityController {
 		return json;
 	}
 
+	@RequestMapping("detail")
+	public String detail(HttpServletRequest request, Integer id, Integer orderNum) {
+		if (orderNum == null) {
+			orderNum = 0;
+		}
+		Commodity commodity = commodityDao.findById(id);
+		commodity.setOrderNum(orderNum);
+		String json = JSON.toJSONString(commodity);
+		return json;
+	}
+
 	/** 上传图片 **/
 	@RequestMapping("upload_img")
 	public String uploadImg(@RequestParam("file") MultipartFile file) {
@@ -105,22 +116,5 @@ public class CommodityController {
 		}
 		return null;
 	}
-
-	//	private String succ(String msg, String filePath) {
-	//		return rsJson(msg, "1", filePath);
-	//	}
-	//
-	//	private String err(String msg) {
-	//		return rsJson(msg, "-1", null);
-	//	}
-	//
-	//	private String rsJson(String msg, String status, String filePath) {
-	//		Map<String, Object> map = new HashMap<String, Object>();
-	//		//map.put("msg", msg);
-	//		map.put("status", status);
-	//		map.put("rs", filePath);
-	//		String json = JSON.toJSONString(map);
-	//		return json;
-	//	}
 
 }
