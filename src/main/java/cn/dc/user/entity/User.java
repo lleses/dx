@@ -1,4 +1,4 @@
-package cn.dc.user.domain;
+package cn.dc.user.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,15 @@ public class User {
 	private String name;
 	/** 用户唯一标识 **/
 	private String openid;
-	private String sessionId;
+
+	private String appId;
+
+	public User() {
+	}
+
+	public User(Integer id) {
+		this.id = id;
+	}
 
 	/**
 	 * 
@@ -63,12 +71,18 @@ public class User {
 		this.openid = openid;
 	}
 
-	public String getSessionId() {
-		return sessionId;
+	/**
+	 * 
+	 */
+	public String getAppId() {
+		return appId;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	/**
+	 * 
+	 */
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 
 }
