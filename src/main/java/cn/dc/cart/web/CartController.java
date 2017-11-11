@@ -1,6 +1,10 @@
 package cn.dc.cart.web;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,12 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.dc.cart.dao.CartRelationshipRepository;
 import cn.dc.cart.dao.CartRepository;
 import cn.dc.cart.entity.Cart;
 import cn.dc.cart.entity.CartRelationship;
 import cn.dc.commodity.domain.Commodity;
 import cn.dc.common.redis.RedisUtil;
+import cn.dc.user.dao.UserRepository;
+import cn.dc.user.entity.User;
 
 /**
  * 购物车
@@ -27,14 +35,27 @@ public class CartController {
 	@Autowired
 	private CartRelationshipRepository cartRelationshipDao;
 	@Autowired
+	private UserRepository userDao;
+	@Autowired
 	private RedisUtil redisUtil;
 
-	//	@RequestMapping("index")
-	//	public String index(HttpServletRequest request, int userId) {
-	//		List<ShoppingCart> list = shoppingCartDao.findByUserId(userId);
-	//		String json = JSON.toJSONString(list);
-	//		return json;
-	//	}
+	@RequestMapping("index")
+	public String index(HttpServletRequest request, String sessionId) {
+		String sessionVal = (String) redisUtil.get(sessionId);
+		//TODO 不严谨
+		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		User user = userDao.findById(userId);
+		Cart cart = cartDao.findByUserId(userId);
+		List<CartRelationship> CartRelationships = new ArrayList<>();
+		if (cart != null) {
+			CartRelationships = cartRelationshipDao.findByCartId(cart.getId());
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", user);
+		map.put("cartRelationships", CartRelationships);
+		String json = JSON.toJSONString(map);
+		return json;
+	}
 
 	@RequestMapping("add")
 	public String add(HttpServletRequest request, String sessionId, int commodityId, long price) {
