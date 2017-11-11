@@ -73,11 +73,11 @@
 			<version>1.2.29</version>
 		</dependency>
 		
-		<!-- redis 
+		<!-- redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-redis</artifactId>
-		</dependency>-->
+		</dependency>
 		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
