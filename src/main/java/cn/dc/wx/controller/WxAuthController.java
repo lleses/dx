@@ -41,6 +41,16 @@ public class WxAuthController {
 	 * @param wxCode	小程序登录时获取的code
 	 * @return
 	 */
+	@RequestMapping(value = "test", method = RequestMethod.GET)
+	public String test(HttpServletRequest request) {
+		return "test succ";
+	}
+
+	/**
+	 * 根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
+	 * @param wxCode	小程序登录时获取的code
+	 * @return
+	 */
 	@RequestMapping(value = "createSssion", method = RequestMethod.GET)
 	public String createSssion(HttpServletRequest request, String sessionId, String code, String appId) {
 		//检查是否需要请求微信,获取新的session信息
