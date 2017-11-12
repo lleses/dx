@@ -54,6 +54,7 @@ public class WxAuthController {
 			if (user == null) {
 				user = new User();
 				user.setOpenid(wxOpenId);
+				user.setAppId(appId);
 				userDao.save(user);
 			}
 			sessionId = wxService.create3rdSession(request, wxOpenId, wxSessionKey, expires, user.getId());

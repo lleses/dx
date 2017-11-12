@@ -41,9 +41,7 @@ public class CartController {
 
 	@RequestMapping("index")
 	public String index(HttpServletRequest request, String sessionId) {
-		String sessionVal = (String) redisUtil.get(sessionId);
-		//TODO 不严谨
-		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		Integer userId = redisUtil.getUserId(sessionId);
 		User user = userDao.findById(userId);
 		Cart cart = cartDao.findByUserId(userId);
 		List<CartRelationship> CartRelationships = new ArrayList<>();
@@ -59,10 +57,7 @@ public class CartController {
 
 	@RequestMapping("add")
 	public String add(HttpServletRequest request, String sessionId, int commodityId, long price) {
-		String sessionVal = (String) redisUtil.get(sessionId);
-		//TODO 不严谨
-		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
-
+		Integer userId = redisUtil.getUserId(sessionId);
 		Cart cart = cartDao.findByUserId(userId);
 		if (cart == null) {
 			cart = new Cart();
@@ -96,10 +91,7 @@ public class CartController {
 
 	@RequestMapping("less")
 	public String less(HttpServletRequest request, String sessionId, int commodityId, long price) {
-		String sessionVal = (String) redisUtil.get(sessionId);
-		//TODO 不严谨
-		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
-
+		Integer userId = redisUtil.getUserId(sessionId);
 		Cart cart = cartDao.findByUserId(userId);
 		if (cart != null) {
 			BigDecimal money = cart.getMoney();
@@ -138,6 +130,18 @@ public class CartController {
 		} else {
 			return false;
 		}
+	}
+
+	@RequestMapping("saveUserInfo")
+	public String saveUserInfo(HttpServletRequest request, String sessionId, User user) {
+		Integer userId = redisUtil.getUserId(sessionId);
+		User us = userDao.findById(userId);
+		us.setName(user.getPhone());
+		us.setPhone(user.getPhone());
+		us.setAddress(user.getAddress());
+		us.setDetailedAddress(user.getDetailedAddress());
+		userDao.save(us);
+		return "1";
 	}
 
 }

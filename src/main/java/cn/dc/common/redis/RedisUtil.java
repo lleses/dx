@@ -108,4 +108,11 @@ public class RedisUtil {
 		});
 		return result;
 	}
+
+	public Integer getUserId(String sessionId) {
+		String sessionVal = (String) this.get(sessionId);
+		//TODO 不严谨
+		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		return userId;
+	}
 }
