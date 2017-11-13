@@ -13,7 +13,7 @@ public class IdUtils {
 
 	/** 时间长度  **/
 	private static int TIME_LENGTH = 14;
-	/** 时间格式  **/
+	/** 日期(yyyy-MM-dd HH:mm:ss)正则校验字符  **/
 	private static String TIME_FORMAT = "20[0-9][0-9](([0][1-9])|([1][0-2]))(([0][1-9])|([1-2][0-9])|(3[0,1]))(([0-1][0-9])|([2][0-3]))[0-5][0-9][0-5][0-9]";
 
 	/**

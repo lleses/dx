@@ -5,7 +5,6 @@ import java.security.InvalidAlgorithmParameterException;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dc.common.aes.AES;
+import cn.dc.common.aes.Aes;
 import cn.dc.common.redis.RedisUtil;
 import cn.dc.user.dao.UserRepository;
 import cn.dc.user.entity.User;
@@ -24,6 +23,9 @@ import cn.dc.wx.service.WxService;
 
 /**
  * 用户
+ * 
+ * @author David
+ * @date   2017年11月13日
  */
 @RestController
 @RequestMapping("wxAuth")
@@ -124,10 +126,7 @@ public class WxAuthController {
 	 */
 	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET)
 	public String decodeUserInfo(HttpServletRequest request, String encryptedData, String iv, String sessionId) {
-		//从缓存中获取session_key
-		//		Object wxSessionObj = redisUtil.get(sessionId);
-		HttpSession session = request.getSession();
-		Object wxSessionObj = session.getAttribute(sessionId);
+		Object wxSessionObj = redisUtil.get(sessionId);
 		if (null == wxSessionObj) {
 			return "-1";
 		}
@@ -135,7 +134,7 @@ public class WxAuthController {
 		String sessionKey = wxSessionStr.split("#")[0];
 
 		try {
-			AES aes = new AES();
+			Aes aes = new Aes();
 			byte[] resultByte = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv));
 			if (null != resultByte && resultByte.length > 0) {
 				String userInfo = new String(resultByte, "UTF-8");
