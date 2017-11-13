@@ -1,4 +1,4 @@
-package cn.dc.commodity.web;
+package cn.dc.commodity.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.dc.commodity.domain.Commodity;
-import cn.dc.commodity.domain.CommodityRepository;
-import cn.dc.commodity.domain.CommodityType;
-import cn.dc.commodity.domain.CommodityTypeRepository;
+import cn.dc.commodity.dao.CommodityRepository;
+import cn.dc.commodity.dao.CommodityTypeRepository;
+import cn.dc.commodity.entity.Commodity;
+import cn.dc.commodity.entity.CommodityType;
 import cn.dc.common.utils.IdUtils;
 
 /**
@@ -100,7 +100,7 @@ public class CommodityController {
 		}
 		String fileName = file.getOriginalFilename();// 获取文件名
 		String fileSuffix = fileName.substring(fileName.lastIndexOf("."));// 获取文件的后缀名
-		fileName = IdUtils.id32() + fileSuffix;
+		fileName = IdUtils.id20() + fileSuffix;
 		File dest = new File(FILE_PATH + fileName);
 		// 检测是否存在目录
 		if (!dest.getParentFile().exists()) {

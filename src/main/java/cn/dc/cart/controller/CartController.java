@@ -1,4 +1,4 @@
-package cn.dc.cart.web;
+package cn.dc.cart.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import cn.dc.cart.dao.CartRelationshipRepository;
 import cn.dc.cart.dao.CartRepository;
 import cn.dc.cart.entity.Cart;
 import cn.dc.cart.entity.CartRelationship;
-import cn.dc.commodity.domain.Commodity;
+import cn.dc.commodity.entity.Commodity;
 import cn.dc.common.redis.RedisUtil;
 import cn.dc.user.dao.UserRepository;
 import cn.dc.user.entity.User;

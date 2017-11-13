@@ -1,4 +1,4 @@
-package cn.dc.commodity.web;
+package cn.dc.commodity.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,10 +17,10 @@ import cn.dc.cart.dao.CartRelationshipRepository;
 import cn.dc.cart.dao.CartRepository;
 import cn.dc.cart.entity.Cart;
 import cn.dc.cart.entity.CartRelationship;
-import cn.dc.commodity.domain.Commodity;
-import cn.dc.commodity.domain.CommodityRepository;
-import cn.dc.commodity.domain.CommodityType;
-import cn.dc.commodity.domain.CommodityTypeRepository;
+import cn.dc.commodity.dao.CommodityRepository;
+import cn.dc.commodity.dao.CommodityTypeRepository;
+import cn.dc.commodity.entity.Commodity;
+import cn.dc.commodity.entity.CommodityType;
 import cn.dc.common.redis.RedisUtil;
 
 /**
@@ -42,9 +42,7 @@ public class CommodityTypeController {
 
 	@RequestMapping("init_data")
 	public String initData(HttpServletRequest request, String sessionId, String appId) {
-		String sessionVal = (String) redisUtil.get(sessionId);
-		//TODO 不严谨
-		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		Integer userId = redisUtil.getUserId(sessionId);
 		List<CommodityType> types = commodityTypeDao.findByAppId(appId);
 		List<Commodity> commoditys = getCommoditys(types);
 		Cart cart = cartDao.findByUserId(userId);
@@ -81,9 +79,7 @@ public class CommodityTypeController {
 
 	@RequestMapping("selType")
 	public String selType(HttpServletRequest request, Integer commodityTypeId, String sessionId) {
-		String sessionVal = (String) redisUtil.get(sessionId);
-		//TODO 不严谨
-		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		Integer userId = redisUtil.getUserId(sessionId);
 		List<Commodity> commoditys = commodityDao.findByCommodityTypeId(commodityTypeId);
 		Cart cart = cartDao.findByUserId(userId);
 		if (cart != null) {

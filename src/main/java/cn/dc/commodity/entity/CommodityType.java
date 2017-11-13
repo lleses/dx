@@ -1,4 +1,4 @@
-package cn.dc.commodity.domain;
+package cn.dc.commodity.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package cn.dc.commodity.web;
+package cn.dc.commodity.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.dc.commodity.domain.Tc;
-import cn.dc.commodity.domain.TcRepository;
+import cn.dc.commodity.dao.TcRepository;
+import cn.dc.commodity.entity.Tc;
 import cn.dc.common.utils.IdUtils;
 
 /**

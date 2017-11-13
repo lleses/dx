@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.dc.commodity.domain.CommodityType;
-import cn.dc.commodity.domain.CommodityTypeRepository;
+import cn.dc.commodity.dao.CommodityTypeRepository;
+import cn.dc.commodity.entity.CommodityType;
 
 @Service
 public class CommodityTypeService {

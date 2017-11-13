@@ -3,8 +3,8 @@ package cn.dc.commodity.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.dc.commodity.domain.Commodity;
-import cn.dc.commodity.domain.CommodityRepository;
+import cn.dc.commodity.dao.CommodityRepository;
+import cn.dc.commodity.entity.Commodity;
 
 @Service
 public class CommodityService {

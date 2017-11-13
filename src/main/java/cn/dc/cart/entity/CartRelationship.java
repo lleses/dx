@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import cn.dc.commodity.domain.Commodity;
+import cn.dc.commodity.entity.Commodity;
 
 /**
  * 购物车订购关系
