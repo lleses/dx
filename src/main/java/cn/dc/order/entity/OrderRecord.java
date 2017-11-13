@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,6 +23,7 @@ public class OrderRecord {
 	/** 订单ID **/
 	private String orderId;
 	/** 订单状态 **/
+	@Enumerated(EnumType.STRING) 
 	private OrderStatusEnum orderStatus;
 	/** 创建时间 */
 	private Date ct;
