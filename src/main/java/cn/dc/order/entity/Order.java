@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -27,8 +29,10 @@ public class Order {
 	/** 总金额(所有商品) **/
 	private BigDecimal money;
 	/** 支付状态 **/
+	@Enumerated(EnumType.STRING) 
 	private PayStatusEnum payStatus;
 	/** 订单状态 **/
+	@Enumerated(EnumType.STRING) 
 	private OrderStatusEnum orderStatus;
 	/** 创建时间 */
 	private Date ct;
