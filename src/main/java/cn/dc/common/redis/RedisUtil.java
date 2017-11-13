@@ -13,6 +13,9 @@ import org.springframework.util.Assert;
 
 /**
  * Jedis增删改查操作
+ * 
+ * @author David
+ * @date   2017年11月13日
  */
 @Service
 public class RedisUtil {
@@ -53,6 +56,7 @@ public class RedisUtil {
 	public boolean add(final Map<String, String> map) {
 		Assert.notEmpty(map);
 		boolean result = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
 				RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
 				for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -81,6 +85,7 @@ public class RedisUtil {
 			throw new NullPointerException("数据行不存在, key = " + key);
 		}
 		boolean result = redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
 				RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
 				connection.set(serializer.serialize(key), serializer.serialize(value));
@@ -96,6 +101,7 @@ public class RedisUtil {
 	 */
 	public Object get(final String keyId) {
 		Object result = redisTemplate.execute(new RedisCallback<Object>() {
+			@Override
 			public Object doInRedis(RedisConnection connection) throws DataAccessException {
 				RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
 				byte[] key = serializer.serialize(keyId);

@@ -17,7 +17,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-public class AES {
+/**
+ * AES
+ * 
+ * @author David
+ * @date   2017年11月13日
+ */
+public class Aes {
 	public static boolean initialized = false;
 
 	/**
@@ -32,8 +38,8 @@ public class AES {
 		try {
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
 			Key sKeySpec = new SecretKeySpec(keyByte, "AES");
-
-			cipher.init(Cipher.DECRYPT_MODE, sKeySpec, generateIV(ivByte));// 初始化 
+			// 初始化 
+			cipher.init(Cipher.DECRYPT_MODE, sKeySpec, generateIV(ivByte));
 			byte[] result = cipher.doFinal(content);
 			return result;
 		} catch (NoSuchAlgorithmException e) {
@@ -47,23 +53,22 @@ public class AES {
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
 		} catch (NoSuchProviderException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	public static void initialize() {
-		if (initialized)
+		if (initialized) {
 			return;
+		}
 		Security.addProvider(new BouncyCastleProvider());
 		initialized = true;
 	}
 
-	//生成iv  
+	/** 生成iv **/
 	public static AlgorithmParameters generateIV(byte[] iv) throws Exception {
 		AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
 		params.init(new IvParameterSpec(iv));
