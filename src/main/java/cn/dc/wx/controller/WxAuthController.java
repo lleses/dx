@@ -24,7 +24,7 @@ import cn.dc.wx.service.WxService;
 /**
  * 用户
  * 
- * @author David
+ * @author 余狄龙
  * @date   2017年11月13日
  */
 @RestController
@@ -39,9 +39,7 @@ public class WxAuthController {
 	private UserRepository userDao;
 
 	/**
-	 * 根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
-	 * @param wxCode	小程序登录时获取的code
-	 * @return
+	 * 测试https服务器是否在运行
 	 */
 	@RequestMapping(value = "test", method = RequestMethod.GET)
 	public String test(HttpServletRequest request) {
@@ -49,8 +47,11 @@ public class WxAuthController {
 	}
 
 	/**
-	 * 根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
-	 * @param wxCode	小程序登录时获取的code
+	 * 根据客户端传过来的code从微信服务器获取appid和session_key，
+	 * 然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
+	 * 
+	 * @param wxCode	
+	 * 			小程序登录时获取的code
 	 * @return
 	 */
 	@RequestMapping(value = "createSssion", method = RequestMethod.GET)
