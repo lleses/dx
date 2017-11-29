@@ -136,7 +136,7 @@ public class CartController {
 	public String saveUserInfo(HttpServletRequest request, String sessionId, User user) {
 		Integer userId = redisUtil.getUserId(sessionId);
 		User us = userDao.findById(userId);
-		us.setName(user.getPhone());
+		us.setName(user.getName());
 		us.setPhone(user.getPhone());
 		us.setAddress(user.getAddress());
 		us.setDetailedAddress(user.getDetailedAddress());
