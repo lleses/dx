@@ -63,6 +63,10 @@ public class WxAuthController {
 			String wxOpenId = wxSession.getString("openid");
 			String wxSessionKey = wxSession.getString("session_key");
 			Long expires = wxSession.getLong("expires_in");
+
+			if (wxOpenId == null) {
+				return null;
+			}
 			User user = userDao.findByOpenid(wxOpenId);
 			if (user == null) {
 				user = new User();
@@ -83,7 +87,7 @@ public class WxAuthController {
 	 */
 	private boolean checkIsNeedToRequestWx(String sessionId) {
 		//初始登陆，客户端并没有传sessionId过来，所以为null
-		if (sessionId == null) {
+		if (sessionId == null || "".equals(sessionId)) {
 			return true;
 		}
 		String sessionVal = (String) redisUtil.get(sessionId);
