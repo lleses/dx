@@ -1,4 +1,4 @@
-package cn.dc.test.bus;
+package cn.dc.test.admin;
 
 import java.util.List;
 
