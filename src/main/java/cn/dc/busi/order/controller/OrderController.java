@@ -29,26 +29,31 @@ public class OrderController {
 	private OrderService orderService;
 
 	/** 创建订单 **/
-	@RequestMapping("createOrder")
-	public String createOrder(HttpServletRequest request) {
+	@RequestMapping("create")
+	public String create(HttpServletRequest request) {
 		//获取参数集，然后把参数集装进order对象
-		Order order = handleParamsByCreateOrder(request);
+		Order order = handleParamsByCreate(request);
 		//业务处理
 		ResultInfo rs = orderService.createOrder(order);
-		return rs.toJson();
+		String json = rs.toJson();
+		return json;
 	}
 
 	/**
-	 * 处理[创建订单]的参数集
+	 * 处理[create方法]的参数集
 	 * 
 	 * @param request
 	 * @return
 	 * 			订单Entity
 	 */
-	private Order handleParamsByCreateOrder(HttpServletRequest request) {
+	private Order handleParamsByCreate(HttpServletRequest request) {
 		//收集参数
-		String sessionId = ParamUtils.getStr(request, "sessionId");
-		String userId = redisUtil.getUserId(sessionId);
+//		String sessionId = ParamUtils.getStr(request, "sessionId");
+//		String userId = redisUtil.getUserId(sessionId);
+		
+		//TODO
+		String userId = ParamUtils.getStr(request, "userId");
+		
 		PayTypeEnum payType = ParamUtils.paramEnum(request, PayTypeEnum.class, "payType");
 		String storeId = ParamUtils.getStr(request, "storeId");
 		String people = ParamUtils.getStr(request, "people");

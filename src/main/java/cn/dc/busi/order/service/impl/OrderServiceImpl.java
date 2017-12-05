@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 	public ResultInfo createOrder(Order order) {
 		//验证订单参数是否有误
 		ResultInfoMapImpl<String, Object> rs = checkParams(order);
-		if (rs.isErr()) {
+		if (rs.checkErr()) {
 			return rs;
 		}
 		//计算金额,并装进order
@@ -81,25 +81,25 @@ public class OrderServiceImpl implements OrderService {
 		String userId = order.getUserId();
 		String storeId = order.getStoreId();
 		if (userId == null || storeId == null) {
-			return rs.err("值不能为空,userId=" + userId + ",storeId=" + storeId);
+			return rs.errLog("值不能为空,userId=" + userId + ",storeId=" + storeId);
 		}
 		User user = userDao.findById(userId);
 		if (user == null) {
-			return rs.err("用户不存在,userId=" + userId);
+			return rs.errLog("用户不存在,userId=" + userId);
 		}
 		BusinessStore store = businessStoreDao.findById(storeId);
 		if (store == null) {
-			return rs.err("店铺不存在,storeId=" + storeId);
+			return rs.errLog("店铺不存在,storeId=" + storeId);
 		}
 		List<Cart> carts = cartDao.findByUserIdAndStoreId(userId, storeId);
 		if (carts == null || carts.isEmpty()) {
-			return rs.err("购物车不存在,userId=" + userId + ",storeId=" + storeId);
+			return rs.errLog("购物车不存在,userId=" + userId + ",storeId=" + storeId);
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("order", order);
 		map.put("user", user);
 		map.put("carts", carts);
-		return rs.succ(map);
+		return rs.succ(map, "操作成功");
 	}
 
 	/**

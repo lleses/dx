@@ -6,7 +6,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 /**
  * 返回结果信息基础类
  */
-public class AbstractResultInfo {
+public abstract class AbstractResultInfo {
 
 	public static final Integer SUCC_CODE = 0;
 	public static final Integer ERROR_CODE = 100;
@@ -25,7 +25,7 @@ public class AbstractResultInfo {
 	 * @return 
 	 * 		true:正常 false:异常
 	 */
-	public boolean isSucc() {
+	public boolean checkSucc() {
 		if (SUCC_CODE.equals(code)) {
 			return true;
 		} else if (ERROR_CODE.equals(code)) {
@@ -40,7 +40,7 @@ public class AbstractResultInfo {
 	 * @return 
 	 * 		true:异常 false:正常
 	 */
-	public boolean isErr() {
+	public boolean checkErr() {
 		if (SUCC_CODE.equals(code)) {
 			return false;
 		} else if (ERROR_CODE.equals(code)) {

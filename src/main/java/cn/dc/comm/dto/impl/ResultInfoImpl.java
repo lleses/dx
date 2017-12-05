@@ -82,7 +82,7 @@ public class ResultInfoImpl<T> extends AbstractResultInfo implements ResultInfo 
 		this.setData(entity);
 		this.setCode(code);
 		this.setMessage(message);
-		this.setMessage(url);
+		this.setUrl(url);
 		return this;
 	}
 

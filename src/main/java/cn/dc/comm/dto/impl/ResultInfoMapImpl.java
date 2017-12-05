@@ -28,6 +28,10 @@ public class ResultInfoMapImpl<K, V> extends AbstractResultInfo implements Resul
 		return handle(ResultInfoMapImpl.SUCC_CODE, map, null, null);
 	}
 
+	public ResultInfoMapImpl<K, V> succ(Map<K, V> map, String message) {
+		return handle(ResultInfoMapImpl.SUCC_CODE, map, message, null);
+	}
+
 	public ResultInfoMapImpl<K, V> err() {
 		return handle(ResultInfoMapImpl.ERROR_CODE, null, null, null);
 	}
@@ -54,6 +58,10 @@ public class ResultInfoMapImpl<K, V> extends AbstractResultInfo implements Resul
 
 	public ResultInfoMapImpl<K, V> succLog(Map<K, V> map) {
 		return handleLog(ResultInfoMapImpl.SUCC_CODE, map, null, null);
+	}
+
+	public ResultInfoMapImpl<K, V> succLog(Map<K, V> map, String message) {
+		return handleLog(ResultInfoMapImpl.SUCC_CODE, map, message, null);
 	}
 
 	public ResultInfoMapImpl<K, V> errLog() {
@@ -85,7 +93,7 @@ public class ResultInfoMapImpl<K, V> extends AbstractResultInfo implements Resul
 		this.setCode(code);
 		this.setData(map);
 		this.setMessage(message);
-		this.setMessage(url);
+		this.setUrl(url);
 		return this;
 	}
 
