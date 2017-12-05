@@ -9,6 +9,9 @@ import cn.dc.comm.utils.IdUtils;
 
 /**
  * 基础实体类
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @MappedSuperclass
 public abstract class AbstractBasicEntity {

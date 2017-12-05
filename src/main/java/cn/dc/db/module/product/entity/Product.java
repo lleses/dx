@@ -11,6 +11,9 @@ import cn.dc.db.comm.entity.AbstractBasicEntity;
 
 /**
  * 产品
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @Entity
 @Table(name = "t_product")

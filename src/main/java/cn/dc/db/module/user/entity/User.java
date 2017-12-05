@@ -7,6 +7,9 @@ import cn.dc.db.comm.entity.AbstractBasicEntity;
 
 /**
  * 消费者信息
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @Entity
 @Table(name = "t_user")
@@ -26,7 +29,7 @@ public class User extends AbstractBasicEntity {
 	private String businessId;
 	/** 会员等级 **/
 	private Integer level;
-	
+
 	/**
 	 * 
 	 */

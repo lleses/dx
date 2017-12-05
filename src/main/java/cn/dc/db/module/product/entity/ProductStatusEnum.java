@@ -2,6 +2,9 @@ package cn.dc.db.module.product.entity;
 
 /**
  * 产品状态
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 public enum ProductStatusEnum {
 

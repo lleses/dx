@@ -7,6 +7,9 @@ import cn.dc.db.comm.entity.AbstractBasicEntity;
 
 /**
  * 商家 店面-账号 关系
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @Entity
 @Table(name = "t_business_store_account_relation")

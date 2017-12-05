@@ -2,6 +2,9 @@ package cn.dc.db.module.busi.entity;
 
 /**
  * 推送状态
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 public enum PushStatusEnum {
 

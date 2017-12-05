@@ -2,6 +2,9 @@ package cn.dc.db.module.order.entity;
 
 /**
  * 支付类型
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 public enum PayTypeEnum {
 

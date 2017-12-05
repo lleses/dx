@@ -9,6 +9,9 @@ import cn.dc.db.comm.entity.AbstractBasicEntity;
 
 /**
  * 订单记录
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @Entity
 @Table(name = "t_order_record")
