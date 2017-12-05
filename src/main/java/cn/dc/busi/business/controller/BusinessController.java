@@ -1,4 +1,4 @@
-package cn.dc.busi.controller;
+package cn.dc.busi.business.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,18 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
-
-import cn.dc.busi.dao.BusinessAccountRepository;
-import cn.dc.busi.dao.BusinessRepository;
-import cn.dc.busi.dao.BusinessStoreAccountRelationRepository;
-import cn.dc.busi.dao.BusinessStoreRepository;
-import cn.dc.busi.dao.BusinessUserPushRepository;
-import cn.dc.busi.dao.BusinessUserRepository;
-import cn.dc.busi.entity.BusinessAccount;
-import cn.dc.busi.entity.BusinessUser;
-import cn.dc.common.redis.RedisUtil;
-import cn.dc.common.utils.IdUtils;
+import cn.dc.comm.reids.RedisUtil;
+import cn.dc.comm.utils.IdUtils;
+import cn.dc.db.module.busi.dao.BusinessAccountRepository;
+import cn.dc.db.module.busi.dao.BusinessRepository;
+import cn.dc.db.module.busi.dao.BusinessStoreAccountRelationRepository;
+import cn.dc.db.module.busi.dao.BusinessStoreRepository;
+import cn.dc.db.module.busi.dao.BusinessUserPushRepository;
+import cn.dc.db.module.busi.dao.BusinessUserRepository;
+import cn.dc.db.module.busi.entity.BusinessAccount;
+import cn.dc.db.module.busi.entity.BusinessUser;
 
 @RestController
 @RequestMapping("business")
