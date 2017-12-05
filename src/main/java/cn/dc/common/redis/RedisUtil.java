@@ -115,10 +115,15 @@ public class RedisUtil {
 		return result;
 	}
 
-	public Integer getUserId(String sessionId) {
+	public String getUserId(String sessionId) {
 		String sessionVal = (String) this.get(sessionId);
-		//TODO 不严谨
-		Integer userId = Integer.valueOf(sessionVal.split("#")[2]);
+		String userId = sessionVal.split("#")[2];
+		return userId;
+	}
+
+	public String getOpenId(String sessionId) {
+		String sessionVal = (String) this.get(sessionId);
+		String userId = sessionVal.split("#")[1];
 		return userId;
 	}
 }

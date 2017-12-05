@@ -6,6 +6,6 @@ import cn.dc.busi.entity.Business;
 
 public interface BusinessRepository extends JpaRepository<Business, String> {
 
-	Business findByAppId(String appId);
+//	Business findByAppId(String appId);
 
 }

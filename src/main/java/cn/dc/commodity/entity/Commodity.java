@@ -2,67 +2,68 @@ package cn.dc.commodity.entity;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import cn.dc.common.entity.AbstractBasicEntity;
 
 /**
  * 商品
  */
 @Entity
 @Table(name = "t_commodity")
-public class Commodity {
+public class Commodity extends AbstractBasicEntity {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	@Column(name = "name")
+	/** 门店Id **/
+	private String storeId;
+	/** 菜品类型Id **/
+	private String commodityTypeId;
+	/** 名称 **/
 	private String name;
-	@Column(name = "remark")
-	private String remark;
-	/** 价格类型 **/
-	@Column(name = "price_type")
-	private String priceType;
+	/** 菜品状态 **/
+	@Enumerated(EnumType.STRING)
+	private CommodityStatusEnum commodityStatus;
+	/** 图片路径 **/
+	private String imgPath;
 	/** 原价 **/
-	@Column(name = "price")
 	private BigDecimal price;
 	/** 会员价 **/
-	@Column(name = "member_price")
 	private BigDecimal memberPrice;
-	@Column(name = "commodity_type_id")
-	private int commodityTypeId;
-	/** 图片路径 **/
-	@Column(name = "img_path")
-	private String imgPath;
-	/** 已卖出的数量 **/
-	private int num;
-	/** 该商品订购数量 **/
-	@Transient
-	private int orderNum;
-	
+	/** 单位 **/
+	private String unit;
+	/** 排序号 **/
+	private Integer serialNum;
+	/** 备注 **/
+	private String remark;
 
-	public Commodity() {
-	}
-
-	public Commodity(Integer id) {
-		this.id = id;
+	/**
+	 * 
+	 */
+	public String getStoreId() {
+		return storeId;
 	}
 
 	/**
 	 * 
 	 */
-	public Integer getId() {
-		return id;
+	public void setStoreId(String storeId) {
+		this.storeId = storeId;
 	}
 
 	/**
 	 * 
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public String getCommodityTypeId() {
+		return commodityTypeId;
+	}
+
+	/**
+	 * 
+	 */
+	public void setCommodityTypeId(String commodityTypeId) {
+		this.commodityTypeId = commodityTypeId;
 	}
 
 	/**
@@ -82,47 +83,15 @@ public class Commodity {
 	/**
 	 * 
 	 */
-	public String getRemark() {
-		return remark;
+	public CommodityStatusEnum getCommodityStatus() {
+		return commodityStatus;
 	}
 
 	/**
 	 * 
 	 */
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public BigDecimal getMemberPrice() {
-		return memberPrice;
-	}
-
-	public void setMemberPrice(BigDecimal memberPrice) {
-		this.memberPrice = memberPrice;
-	}
-
-	public int getCommodityTypeId() {
-		return commodityTypeId;
-	}
-
-	public void setCommodityTypeId(int commodityTypeId) {
-		this.commodityTypeId = commodityTypeId;
-	}
-
-	public String getPriceType() {
-		return priceType;
-	}
-
-	public void setPriceType(String priceType) {
-		this.priceType = priceType;
+	public void setCommodityStatus(CommodityStatusEnum commodityStatus) {
+		this.commodityStatus = commodityStatus;
 	}
 
 	/**
@@ -142,29 +111,71 @@ public class Commodity {
 	/**
 	 * 
 	 */
-	public int getNum() {
-		return num;
+	public BigDecimal getPrice() {
+		return price;
 	}
 
 	/**
 	 * 
 	 */
-	public void setNum(int num) {
-		this.num = num;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	/**
 	 * 
 	 */
-	public int getOrderNum() {
-		return orderNum;
+	public BigDecimal getMemberPrice() {
+		return memberPrice;
 	}
 
 	/**
 	 * 
 	 */
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
+	public void setMemberPrice(BigDecimal memberPrice) {
+		this.memberPrice = memberPrice;
+	}
+
+	/**
+	 * 
+	 */
+	public String getUnit() {
+		return unit;
+	}
+
+	/**
+	 * 
+	 */
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getSerialNum() {
+		return serialNum;
+	}
+
+	/**
+	 * 
+	 */
+	public void setSerialNum(Integer serialNum) {
+		this.serialNum = serialNum;
+	}
+
+	/**
+	 * 
+	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	/**
+	 * 
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

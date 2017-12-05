@@ -1,67 +1,80 @@
 package cn.dc.cart.entity;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
+
+import cn.dc.common.entity.AbstractBasicEntity;
 
 /**
  * 购物车
  */
 @Entity
 @Table(name = "t_cart")
-public class Cart {
+public class Cart extends AbstractBasicEntity {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	/** 用户id **/
-	private Integer userId;
-	/** 总金额 **/
-	private BigDecimal money;
-
-	/**
-	 * 
-	 */
-	public Integer getId() {
-		return id;
-	}
+	/** 消费者用户ID **/
+	private String userId;
+	/** 门店ID **/
+	private String storeId;
+	/** 菜品ID **/
+	private String commodityId;
+	/** 数量 **/
+	private Integer num;
 
 	/**
 	 * 
 	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	/**
-	 * 
-	 */
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
 	/**
 	 * 
 	 */
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
 	/**
 	 * 
 	 */
-	public BigDecimal getMoney() {
-		return money;
+	public String getStoreId() {
+		return storeId;
 	}
 
 	/**
 	 * 
 	 */
-	public void setMoney(BigDecimal money) {
-		this.money = money;
+	public void setStoreId(String storeId) {
+		this.storeId = storeId;
+	}
+
+	/**
+	 * 
+	 */
+	public String getCommodityId() {
+		return commodityId;
+	}
+
+	/**
+	 * 
+	 */
+	public void setCommodityId(String commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getNum() {
+		return num;
+	}
+
+	/**
+	 * 
+	 */
+	public void setNum(Integer num) {
+		this.num = num;
 	}
 
 }

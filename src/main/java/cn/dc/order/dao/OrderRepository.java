@@ -6,6 +6,6 @@ import cn.dc.order.entity.Order;
 
 public interface OrderRepository extends JpaRepository<Order, String> {
 
-	Order findById(String id);
+//	Order findById(String id);
 
 }

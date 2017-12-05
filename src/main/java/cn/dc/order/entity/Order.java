@@ -1,134 +1,209 @@
 package cn.dc.order.entity;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import cn.dc.common.utils.IdUtils;
+import cn.dc.common.entity.AbstractBasicEntity;
 
 /**
  * 订单
  */
 @Entity
 @Table(name = "t_order")
-public class Order {
+public class Order extends AbstractBasicEntity {
 
-	@Id
-	private String id;
-	/** 顾客电话 **/
-	private String phone;
+	/** 支付类型 **/
+	@Enumerated(EnumType.STRING)
+	private PayTypeEnum payType;
+	/** 订单状态 **/
+	@Enumerated(EnumType.STRING)
+	private OrderStatusEnum orderStatus;
+	/** 门店ID **/
+	private String storeId;
+	/** 消费者ID **/
+	private String userId;
+	/** 收货人 **/
+	private String people;
 	/** 送货地址 **/
 	private String address;
+	/** 收货电话 **/
+	private String phone;
+	/** 实收金额(所有商品) **/
+	private BigDecimal actualMoney;
 	/** 总金额(所有商品) **/
-	private BigDecimal money;
-	/** 支付状态 **/
-	@Enumerated(EnumType.STRING) 
-	private PayStatusEnum payStatus;
-	/** 订单状态 **/
-	@Enumerated(EnumType.STRING) 
-	private OrderStatusEnum orderStatus;
-	/** 创建时间 */
-	private Date ct;
-	/** appId */
-	private String appId;
+	private BigDecimal totalMoney;
+	/** 台号 **/
+	private Integer deskNum;
+	/** 备注 **/
+	private String remark;
 
 	public Order() {
 	}
 
-	public Order(String phone, String address, BigDecimal money, String appId) {
-		this.id = IdUtils.id32();
-		this.phone = phone;
-		this.address = address;
-		this.money = money;
-		this.appId = appId;
-		this.payStatus = PayStatusEnum.WZF;//未支付 
-		this.orderStatus = OrderStatusEnum.DSL;//用户已下单,等待受理
-		this.ct = new Date();
+	public Order(String storeId, String userId) {
+		super();
+		//待支付
+		this.orderStatus = OrderStatusEnum.DZF;
+		this.storeId = storeId;
+		this.userId = userId;
 	}
 
 	/**
-	 * 
+	 * 支付类型
 	 */
-	@Transient
-	public String getCtYYYYMMDD() {
-		return new SimpleDateFormat("yyyy-MM-dd").format(ct);
+	public PayTypeEnum getPayType() {
+		return payType;
 	}
 
-	public String getId() {
-		return id;
+	/**
+	 * 支付类型
+	 */
+	public void setPayType(PayTypeEnum payType) {
+		this.payType = payType;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public BigDecimal getMoney() {
-		return money;
-	}
-
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
-
-	public PayStatusEnum getPayStatus() {
-		return payStatus;
-	}
-
-	public void setPayStatus(PayStatusEnum payStatus) {
-		this.payStatus = payStatus;
-	}
-
+	/**
+	 * 订单状态
+	 */
 	public OrderStatusEnum getOrderStatus() {
 		return orderStatus;
 	}
 
+	/**
+	 * 订单状态
+	 */
 	public void setOrderStatus(OrderStatusEnum orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 
-	public Date getCt() {
-		return ct;
-	}
-
-	public void setCt(Date ct) {
-		this.ct = ct;
+	/**
+	 * 门店ID
+	 */
+	public String getStoreId() {
+		return storeId;
 	}
 
 	/**
-	 * 
+	 * 门店ID
 	 */
-	public String getAppId() {
-		return appId;
+	public void setStoreId(String storeId) {
+		this.storeId = storeId;
 	}
 
 	/**
-	 * 
+	 * 消费者ID
 	 */
-	public void setAppId(String appId) {
-		this.appId = appId;
+	public String getUserId() {
+		return userId;
+	}
+
+	/**
+	 * 消费者ID
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * 收货人
+	 */
+	public String getPeople() {
+		return people;
+	}
+
+	/**
+	 * 收货人
+	 */
+	public void setPeople(String people) {
+		this.people = people;
+	}
+
+	/**
+	 * 送货地址
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * 送货地址
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * 收货电话
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * 收货电话
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * 实收金额(所有商品)
+	 */
+	public BigDecimal getActualMoney() {
+		return actualMoney;
+	}
+
+	/**
+	 * 实收金额(所有商品)
+	 */
+	public void setActualMoney(BigDecimal actualMoney) {
+		this.actualMoney = actualMoney;
+	}
+
+	/**
+	 * 总金额(所有商品)
+	 */
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
+
+	/**
+	 * 总金额(所有商品)
+	 */
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+
+	/**
+	 * 台号
+	 */
+	public Integer getDeskNum() {
+		return deskNum;
+	}
+
+	/**
+	 * 台号
+	 */
+	public void setDeskNum(Integer deskNum) {
+		this.deskNum = deskNum;
+	}
+
+	/**
+	 * 备注
+	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	/**
+	 * 备注
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

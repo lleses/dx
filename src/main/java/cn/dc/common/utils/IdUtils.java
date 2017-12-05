@@ -1,5 +1,6 @@
 package cn.dc.common.utils;
 
+import java.security.MessageDigest;
 import java.util.Date;
 import java.util.UUID;
 
@@ -85,6 +86,35 @@ public class IdUtils {
 			}
 		}
 		return null;
+	}
+
+	/** md5加密 **/
+	public static String md5(String pwd) {
+		if (pwd != null && !"".equals(pwd.trim())) {
+			try {
+				MessageDigest md5 = MessageDigest.getInstance("MD5");
+				md5.update((pwd).getBytes("UTF-8"));
+				byte b[] = md5.digest();
+
+				int i;
+				StringBuffer buf = new StringBuffer("");
+
+				for (int offset = 0; offset < b.length; offset++) {
+					i = b[offset];
+					if (i < 0) {
+						i += 256;
+					}
+					if (i < 16) {
+						buf.append("0");
+					}
+					buf.append(Integer.toHexString(i));
+				}
+				return buf.toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
 	}
 
 }

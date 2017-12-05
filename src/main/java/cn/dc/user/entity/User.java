@@ -1,52 +1,44 @@
 package cn.dc.user.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import cn.dc.common.entity.AbstractBasicEntity;
+
 /**
- * 用户
+ * 消费者信息
  */
 @Entity
 @Table(name = "t_user")
-public class User {
+public class User extends AbstractBasicEntity {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	/** 用户唯一标识 **/
+	/** openid **/
 	private String openid;
-	/** 用户名称 **/
+	/** 名称 **/
 	private String name;
-	/** 用户电话 **/
+	/** 电话 **/
 	private String phone;
 	/** 地图地址 **/
 	private String address;
 	/** 详细地址 **/
 	private String detailedAddress;
-
-	private String appId;
-
-	public User() {
-	}
-
-	public User(Integer id) {
-		this.id = id;
+	/** 商家ID **/
+	private String businessId;
+	/** 会员等级 **/
+	private Integer level;
+	
+	/**
+	 * 
+	 */
+	public String getOpenid() {
+		return openid;
 	}
 
 	/**
 	 * 
 	 */
-	public Integer getId() {
-		return id;
-	}
-
-	/**
-	 * 
-	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 
 	/**
@@ -61,20 +53,6 @@ public class User {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * 
-	 */
-	public String getOpenid() {
-		return openid;
-	}
-
-	/**
-	 * 
-	 */
-	public void setOpenid(String openid) {
-		this.openid = openid;
 	}
 
 	/**
@@ -122,15 +100,29 @@ public class User {
 	/**
 	 * 
 	 */
-	public String getAppId() {
-		return appId;
+	public String getBusinessId() {
+		return businessId;
 	}
 
 	/**
 	 * 
 	 */
-	public void setAppId(String appId) {
-		this.appId = appId;
+	public void setBusinessId(String businessId) {
+		this.businessId = businessId;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getLevel() {
+		return level;
+	}
+
+	/**
+	 * 
+	 */
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 
 }

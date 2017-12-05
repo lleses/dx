@@ -8,12 +8,12 @@ import cn.dc.commodity.entity.Commodity;
 
 public interface CommodityRepository extends JpaRepository<Commodity, Long> {
 
-	Commodity findByName(String name);
-
-	Commodity findById(int id);
-
-	List<Commodity> findByCommodityTypeId(int id);
-
-	//TODO 准备删
-	List<Commodity> findByNumGreaterThan(int num);
+//	Commodity findByName(String name);
+//
+	Commodity findById(String id);
+//
+//	List<Commodity> findByCommodityTypeId(int id);
+//
+//	//TODO 准备删
+//	List<Commodity> findByNumGreaterThan(int num);
 }
