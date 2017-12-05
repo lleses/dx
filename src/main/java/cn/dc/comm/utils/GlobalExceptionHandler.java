@@ -10,6 +10,9 @@ import cn.dc.comm.dto.impl.ResultInfoImpl;
 
 /**
  * 统一拦截错误日志
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
