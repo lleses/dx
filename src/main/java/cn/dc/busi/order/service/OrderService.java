@@ -6,7 +6,7 @@ import cn.dc.db.module.order.entity.Order;
 /**
  * 订单业务逻辑
  * 
- * @author didi
+ * @author 余狄龙
  * @date 2017年12月6日
  */
 public interface OrderService {

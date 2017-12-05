@@ -16,7 +16,7 @@ import cn.dc.db.module.order.entity.PayTypeEnum;
 /**
  * 订单
  * 
- * @author didi
+ * @author 余狄龙
  * @date 2017年12月6日
  */
 @RestController

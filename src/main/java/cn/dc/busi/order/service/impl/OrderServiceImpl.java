@@ -26,7 +26,7 @@ import cn.dc.db.module.user.entity.User;
 /**
  * 订单业务逻辑
  * 
- * @author didi
+ * @author 余狄龙
  * @date 2017年12月6日
  */
 @Service
