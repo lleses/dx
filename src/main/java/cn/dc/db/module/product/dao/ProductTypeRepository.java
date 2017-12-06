@@ -12,7 +12,6 @@ import cn.dc.db.module.product.entity.ProductType;
  */
 public interface ProductTypeRepository extends JpaRepository<ProductType, Long> {
 
-	//	CommodityType findByNameAndAppId(String name, String appId);
-	//
+	ProductType findByNameAndStoreId(String name, String storeId);
 	//	List<CommodityType> findByAppId(String appId);
 }

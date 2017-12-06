@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import cn.dc.db.comm.entity.AbstractBasicEntity;
@@ -21,8 +24,10 @@ public class Product extends AbstractBasicEntity {
 
 	/** 门店Id **/
 	private String storeId;
-	/** 菜品类型Id **/
-	private String productTypeId;
+	/** 菜品类型 **/
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_productType", nullable = false)
+	private ProductType productType;
 	/** 名称 **/
 	private String name;
 	/** 菜品状态 **/
@@ -56,17 +61,17 @@ public class Product extends AbstractBasicEntity {
 	}
 
 	/**
-	 * 菜品类型Id
+	 * 菜品类型
 	 */
-	public String getProductTypeId() {
-		return productTypeId;
+	public ProductType getProductType() {
+		return productType;
 	}
 
 	/**
-	 * 菜品类型Id
+	 * 菜品类型
 	 */
-	public void setProductTypeId(String productTypeId) {
-		this.productTypeId = productTypeId;
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
 	}
 
 	/**

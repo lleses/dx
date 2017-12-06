@@ -29,6 +29,10 @@ public class ResultInfoImpl<T> extends AbstractResultInfo implements ResultInfo 
 		return handle(ResultInfoImpl.ERROR_CODE, null, message, null);
 	}
 
+	public ResultInfoImpl<T> err(int code, String message) {
+		return handle(code, null, message, null);
+	}
+
 	public ResultInfoImpl<T> err(T entity) {
 		return handle(ResultInfoImpl.ERROR_CODE, entity, null, null);
 	}

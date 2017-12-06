@@ -24,6 +24,17 @@ public class Cart extends AbstractBasicEntity {
 	/** 数量 **/
 	private Integer num;
 
+	public Cart() {
+	}
+
+	public Cart(String userId, String storeId, String productId) {
+		super();
+		this.userId = userId;
+		this.storeId = storeId;
+		this.productId = productId;
+		this.num = 1;
+	}
+
 	/**
 	 * 消费者用户ID
 	 */

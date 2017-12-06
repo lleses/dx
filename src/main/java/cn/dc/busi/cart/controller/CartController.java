@@ -1,148 +1,123 @@
 package cn.dc.busi.cart.controller;
-//package cn.dc.cart.controller;
-//
-//import java.math.BigDecimal;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//
-//import javax.servlet.http.HttpServletRequest;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.alibaba.fastjson.JSON;
-//
-//import cn.dc.cart.dao.CartRelationshipRepository;
-//import cn.dc.cart.dao.CartRepository;
-//import cn.dc.cart.entity.Cart;
-//import cn.dc.cart.entity.CartRelationship;
-//import cn.dc.commodity.entity.Commodity;
-//import cn.dc.common.redis.RedisUtil;
-//import cn.dc.user.dao.UserRepository;
-//import cn.dc.user.entity.User;
-//
-///**
-// * 购物车
-// */
-//@RestController
-//@RequestMapping("cart")
-//public class CartController {
-//
-//	@Autowired
-//	private CartRepository cartDao;
-//	@Autowired
-//	private CartRelationshipRepository cartRelationshipDao;
-//	@Autowired
-//	private UserRepository userDao;
-//	@Autowired
-//	private RedisUtil redisUtil;
-//
-//	@RequestMapping("index")
-//	public String index(HttpServletRequest request, String sessionId) {
-//		Integer userId = redisUtil.getUserId(sessionId);
-//		User user = userDao.findById(userId);
-//		Cart cart = cartDao.findByUserId(userId);
-//		List<CartRelationship> CartRelationships = new ArrayList<>();
-//		if (cart != null) {
-//			CartRelationships = cartRelationshipDao.findByCartId(cart.getId());
-//		}
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("user", user);
-//		map.put("cartRelationships", CartRelationships);
-//		String json = JSON.toJSONString(map);
-//		return json;
-//	}
-//
-//	@RequestMapping("add")
-//	public String add(HttpServletRequest request, String sessionId, int commodityId, long price) {
-//		Integer userId = redisUtil.getUserId(sessionId);
-//		Cart cart = cartDao.findByUserId(userId);
-//		if (cart == null) {
-//			cart = new Cart();
-//			cart.setUserId(userId);
-//			cart.setMoney(new BigDecimal(price));
-//			cartDao.save(cart);
-//		} else {
-//			BigDecimal money = cart.getMoney();
-//			money = money.add(new BigDecimal(price));
-//			cart.setMoney(money);
-//			cartDao.save(cart);
-//		}
-//
-//		CartRelationship cartRelationship = cartRelationshipDao.findByCartIdAndCommodityId(cart.getId(), commodityId);
-//		if (cartRelationship == null) {
-//			cartRelationship = new CartRelationship();
-//			cartRelationship.setCartId(cart.getId());
-//			cartRelationship.setCommodity(new Commodity(commodityId));
-//			cartRelationship.setNum(1);
-//			cartRelationship.setMoney(new BigDecimal(price));
-//			cartRelationshipDao.save(cartRelationship);
-//		} else {
-//			int num = cartRelationship.getNum();
-//			num++;
-//			cartRelationship.setNum(num);
-//			cartRelationship.setMoney(new BigDecimal(num * price));
-//			cartRelationshipDao.save(cartRelationship);
-//		}
-//		return "1";
-//	}
-//
-//	@RequestMapping("less")
-//	public String less(HttpServletRequest request, String sessionId, int commodityId, long price) {
-//		Integer userId = redisUtil.getUserId(sessionId);
-//		Cart cart = cartDao.findByUserId(userId);
-//		if (cart != null) {
-//			BigDecimal money = cart.getMoney();
-//			money = money.subtract(new BigDecimal(price));
-//
-//			if (checkMoney(money)) {
-//				cart.setMoney(money);
-//				cartDao.save(cart);
-//			}
-//
-//			CartRelationship cartRelationship = cartRelationshipDao.findByCartIdAndCommodityId(cart.getId(), commodityId);
-//			if (cartRelationship != null) {
-//				int num = cartRelationship.getNum();
-//				num--;
-//				if (num > 0) {
-//					cartRelationship.setNum(num);
-//					cartRelationship.setMoney(new BigDecimal(num * price));
-//					cartRelationshipDao.save(cartRelationship);
-//				} else {
-//					cartRelationshipDao.delete(cartRelationship);
-//				}
-//			}
-//
-//			if (!checkMoney(money)) {
-//				cartDao.delete(cart);
-//			}
-//		}
-//		return "1";
-//	}
-//
-//	/** 判断金额是否大于0(true:金额>0, false:金额=<0) **/
-//	private boolean checkMoney(BigDecimal money) {
-//		//结果是:-1 小于,0 等于,1 大于
-//		if (money.compareTo(new BigDecimal(0)) == 1) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-//
-//	@RequestMapping("saveUserInfo")
-//	public String saveUserInfo(HttpServletRequest request, String sessionId, User user) {
-//		Integer userId = redisUtil.getUserId(sessionId);
-//		User us = userDao.findById(userId);
-//		us.setName(user.getName());
-//		us.setPhone(user.getPhone());
-//		us.setAddress(user.getAddress());
-//		us.setDetailedAddress(user.getDetailedAddress());
-//		userDao.save(us);
-//		return "1";
-//	}
-//
-//}
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.dc.comm.dto.impl.ResultInfoImpl;
+import cn.dc.comm.reids.RedisUtil;
+import cn.dc.db.module.cart.dao.CartRepository;
+import cn.dc.db.module.cart.entity.Cart;
+import cn.dc.db.module.user.dao.UserRepository;
+import cn.dc.db.module.user.entity.User;
+
+/**
+ * 购物车
+ */
+@RestController
+@RequestMapping("cart")
+public class CartController {
+
+	@Autowired
+	private CartRepository cartDao;
+	@Autowired
+	private UserRepository userDao;
+	@Autowired
+	private RedisUtil redisUtil;
+
+	@RequestMapping("toPay")
+	public String toPay(HttpServletRequest request, String sessionId, String storeId) {
+		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		if (sessionId == null || storeId == null) {
+			rs = rs.errLog("cart/toPay--值为空: sessionId=" + sessionId + ",storeId=" + storeId);
+			return rs.toJson();
+		}
+		String userId = redisUtil.getUserId(sessionId);
+		if (userId == null) {
+			rs = rs.errLog("cart/toPay--值为空: userId=" + userId);
+			return rs.toJson();
+		}
+		User user = userDao.findById(userId);
+		if (user == null) {
+			rs = rs.errLog("cart/toPay--user对象为空");
+			return rs.toJson();
+		}
+		List<Cart> cart = cartDao.findByUserIdAndStoreId(userId, storeId);
+		String json = rs.succ(cart).toJson();
+		return json;
+	}
+
+	@RequestMapping("add")
+	public String add(HttpServletRequest request, String sessionId, String storeId, String productId) {
+		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		if (sessionId == null || storeId == null || productId == null) {
+			rs = rs.errLog("cart/add--值为空: sessionId=" + sessionId + ",storeId=" + storeId + ",productId=" + productId);
+			return rs.toJson();
+		}
+		String userId = redisUtil.getUserId(sessionId);
+		if (userId == null) {
+			rs = rs.errLog("cart/add--userId值为空");
+			return rs.toJson();
+		}
+		Cart cart = cartDao.findByUserId(userId);
+		if (cart == null) {
+			cart = new Cart(userId, storeId, productId);
+		} else {
+			cart.setNum(cart.getNum() + 1);
+		}
+		cartDao.save(cart);
+		String json = rs.succ().toJson();
+		return json;
+	}
+
+	@RequestMapping("less")
+	public String less(HttpServletRequest request, String sessionId, String productId, String storeId) {
+		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		if (sessionId == null || storeId == null || productId == null) {
+			rs = rs.errLog("cart/less--值为空: sessionId=" + sessionId + ",storeId=" + storeId + ",productId=" + productId);
+			return rs.toJson();
+		}
+		String userId = redisUtil.getUserId(sessionId);
+		if (userId == null) {
+			rs = rs.errLog("cart/less--userId值为空");
+			return rs.toJson();
+		}
+		Cart cart = cartDao.findByUserId(userId);
+		if (cart == null) {
+			rs = rs.errLog("cart/less--cart对象为空");
+			return rs.toJson();
+		}
+
+		Integer num = cart.getNum();
+		if (num == null) {
+			rs = rs.errLog("cart/less--数量为空");
+			return rs.toJson();
+		}
+
+		if (num <= 1) {
+			cartDao.delete(cart);
+		} else {
+			cart.setNum(cart.getNum() - 1);
+			cartDao.save(cart);
+		}
+		String json = rs.succ().toJson();
+		return json;
+	}
+
+	//	@RequestMapping("saveUserInfo")
+	//	public String saveUserInfo(HttpServletRequest request, String sessionId, User user) {
+	//		Integer userId = redisUtil.getUserId(sessionId);
+	//		User us = userDao.findById(userId);
+	//		us.setName(user.getName());
+	//		us.setPhone(user.getPhone());
+	//		us.setAddress(user.getAddress());
+	//		us.setDetailedAddress(user.getDetailedAddress());
+	//		userDao.save(us);
+	//		return "1";
+	//	}
+
+}
