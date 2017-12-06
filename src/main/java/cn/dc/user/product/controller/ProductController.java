@@ -1,4 +1,4 @@
-package cn.dc.busi.product.controller;
+package cn.dc.user.product.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,35 +18,11 @@ import cn.dc.db.module.product.entity.ProductType;
  * @date 2017年12月6日
  */
 @RestController
-@RequestMapping("busi/product")
+@RequestMapping("user/product")
 public class ProductController {
 
 	@Autowired
 	private ProductRepository productDao;
-
-	@RequestMapping("save")
-	public String save(HttpServletRequest request, Product product, String productTypeId) {
-		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
-		if (productTypeId == null) {
-			rs = rs.errLog("product/save--值为空");
-			return rs.toJson();
-		}
-		product.setProductType(new ProductType(productTypeId));
-		productDao.save(product);
-		return rs.succ().toJson();
-	}
-
-	@RequestMapping("del")
-	public String del(HttpServletRequest request, String id) {
-		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
-		Product product = productDao.findById(id);
-		if (product == null) {
-			rs = rs.errLog("product/del--值为空");
-			return rs.toJson();
-		}
-		productDao.delete(product);
-		return rs.succ().toJson();
-	}
 
 	@RequestMapping("detail")
 	public String detail(HttpServletRequest request, String id) {

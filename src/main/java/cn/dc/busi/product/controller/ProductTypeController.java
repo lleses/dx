@@ -17,9 +17,12 @@ import cn.dc.db.module.product.entity.ProductType;
 
 /**
  * 商品类型
+ * 
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 @RestController
-@RequestMapping("productType")
+@RequestMapping("busi/productType")
 public class ProductTypeController {
 	@Autowired
 	private ProductTypeRepository productTypeDao;

@@ -1,4 +1,4 @@
-package cn.dc.busi.cart.controller;
+package cn.dc.user.cart.controller;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import cn.dc.db.module.user.entity.User;
  * 购物车
  */
 @RestController
-@RequestMapping("cart")
+@RequestMapping("user/cart")
 public class CartController {
 
 	@Autowired

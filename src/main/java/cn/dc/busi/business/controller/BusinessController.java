@@ -18,7 +18,7 @@ import cn.dc.db.module.busi.entity.BusinessAccount;
 import cn.dc.db.module.busi.entity.BusinessUser;
 
 @RestController
-@RequestMapping("business")
+@RequestMapping("busi/business")
 public class BusinessController {
 
 	@Autowired

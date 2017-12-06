@@ -20,7 +20,7 @@ import cn.dc.db.module.order.entity.PayTypeEnum;
  * @date 2017年12月6日
  */
 @RestController
-@RequestMapping("order")
+@RequestMapping("busi/order")
 public class OrderController {
 
 	@Autowired
@@ -48,12 +48,12 @@ public class OrderController {
 	 */
 	private Order handleParamsByCreate(HttpServletRequest request) {
 		//收集参数
-//		String sessionId = ParamUtils.getStr(request, "sessionId");
-//		String userId = redisUtil.getUserId(sessionId);
-		
+		//		String sessionId = ParamUtils.getStr(request, "sessionId");
+		//		String userId = redisUtil.getUserId(sessionId);
+
 		//TODO
 		String userId = ParamUtils.getStr(request, "userId");
-		
+
 		PayTypeEnum payType = ParamUtils.paramEnum(request, PayTypeEnum.class, "payType");
 		String storeId = ParamUtils.getStr(request, "storeId");
 		String people = ParamUtils.getStr(request, "people");
