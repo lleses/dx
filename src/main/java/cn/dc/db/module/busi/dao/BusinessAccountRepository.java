@@ -14,4 +14,6 @@ public interface BusinessAccountRepository extends JpaRepository<BusinessAccount
 
 	BusinessAccount findByUsername(String username);
 
+	BusinessAccount findByUsernameAndPassword(String username, String password);
+
 }

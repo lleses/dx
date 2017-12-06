@@ -20,6 +20,10 @@ public class ResultInfoImpl<T> extends AbstractResultInfo implements ResultInfo 
 
 	private T data;
 
+	public ResultInfoImpl<T> go(int code, T entity) {
+		return handle(code, entity, null, null);
+	}
+
 	public ResultInfoImpl<T> succ() {
 		return handle(ResultInfoImpl.SUCC_CODE, null, null, null);
 	}

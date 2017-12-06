@@ -13,4 +13,5 @@ import cn.dc.db.module.busi.entity.BusinessStore;
 public interface BusinessStoreRepository extends JpaRepository<BusinessStore, String> {
 
 	BusinessStore findById(String id);
+
 }

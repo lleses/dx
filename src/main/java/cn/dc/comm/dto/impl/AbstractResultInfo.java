@@ -8,8 +8,16 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
  */
 public abstract class AbstractResultInfo {
 
+	/** 成功 **/
 	public static final Integer SUCC_CODE = 0;
+	/** 失败 **/
 	public static final Integer ERROR_CODE = 100;
+	/** 跳转登陆页 **/
+	public static final Integer TO_LOGIN_VIEW = 30;
+	/** 跳转门店列表页 **/
+	public static final Integer TO_STORE_LIST_VIEW = 31;
+	/** 跳转首页 **/
+	public static final Integer TO_INDEX_VIEW = 32;
 
 	protected Integer code;
 	protected String message;

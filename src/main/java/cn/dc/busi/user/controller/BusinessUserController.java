@@ -1,6 +1,9 @@
 package cn.dc.busi.user.controller;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,8 +20,8 @@ import cn.dc.db.module.busi.dao.BusinessStoreAccountRelationRepository;
 import cn.dc.db.module.busi.dao.BusinessStoreRepository;
 import cn.dc.db.module.busi.dao.BusinessUserPushRepository;
 import cn.dc.db.module.busi.dao.BusinessUserRepository;
-import cn.dc.db.module.busi.entity.Business;
 import cn.dc.db.module.busi.entity.BusinessAccount;
+import cn.dc.db.module.busi.entity.BusinessStore;
 import cn.dc.db.module.busi.entity.BusinessStoreAccountRelation;
 import cn.dc.db.module.busi.entity.BusinessUser;
 
@@ -64,7 +67,7 @@ public class BusinessUserController {
 			return rs.errLog("busi/user/checkBind--businessUser对象为空").toJson();
 		} else if (businessUser.getAccountId() == null) {
 			//[code:1]--用户没有绑定账号，跳转登陆页
-			return rs.err(1, null).toJson();
+			return rs.go(ResultInfoImpl.TO_LOGIN_VIEW, null).toJson();
 		}
 		//检查商家用户的账号和店面的绑定是否正常
 		List<BusinessStoreAccountRelation> storeAccountRe = businessStoreAccountRelationDao.findByAccountId(businessUser.getAccountId());
@@ -78,12 +81,16 @@ public class BusinessUserController {
 
 			//获取账单信息，推送信息
 
-			return rs.err(2, null).toJson();
+			return rs.go(ResultInfoImpl.TO_INDEX_VIEW, null).toJson();
 		} else {
 			//[code:3]--有多个店面,则直接进入[店面列表选择页]]
-
 			//获取店面信息
-			return rs.err(3, null).toJson();
+			Set<BusinessStore> stores = new HashSet<>();
+			for (BusinessStoreAccountRelation relation : storeAccountRe) {
+				BusinessStore store = businessStoreDao.findById(relation.getStoreId());
+				stores.add(store);
+			}
+			return rs.go(ResultInfoImpl.TO_STORE_LIST_VIEW, stores).toJson();
 		}
 
 	}
@@ -92,6 +99,7 @@ public class BusinessUserController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, String username, String password, String sessionId) {
 		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		//校验参数有效性
 		if (sessionId == null || username == null || password == null) {
 			return rs.errLog("busi/user/login--值为空,sessionId=" + sessionId + ",username=" + username + ",password=" + password).toJson();
 		}
@@ -99,31 +107,45 @@ public class BusinessUserController {
 		if (openId == null) {
 			return rs.errLog("busi/user/login--openId为空").toJson();
 		}
-
+		//核对账号信息有效性
 		password = IdUtils.md5(password);
-		BusinessAccount account = businessAccountDao.findByUsername(username);
+		BusinessAccount account = businessAccountDao.findByUsernameAndPassword(username, password);
 		if (account == null) {
-			return rs.err("账号不存在").toJson();
+			return rs.err("账号密码不正确").toJson();
 		}
-
-		//商家用户
+		//核对商家用户信息有效性
 		BusinessUser user = businessUserDao.findByOpenId(openId);
 		if (user == null) {
-			return rs.errLog("商家用户不存在").toJson();
+			return rs.errLog("busi/user/login--商家用户不存在").toJson();
+		}
+		//绑定账号
+		user.setAccountId(account.getId());
+		user.setEt(new Date());
+		businessUserDao.save(user);
+
+		//检查商家用户的账号和店面的绑定是否正常
+		List<BusinessStoreAccountRelation> storeAccountRe = businessStoreAccountRelationDao.findByAccountId(account.getId());
+		if (storeAccountRe == null || storeAccountRe.isEmpty()) {
+			return rs.errLog("busi/user/login--storeAccountRe为空").toJson();
 		}
 
-		//		Integer userId = redisUtil.getUserId(sessionId);
-		//		User user = userDao.findById(userId);
-		//		Cart cart = cartDao.findByUserId(userId);
-		//		List<CartRelationship> CartRelationships = new ArrayList<>();
-		//		if (cart != null) {
-		//			CartRelationships = cartRelationshipDao.findByCartId(cart.getId());
-		//		}
-		//		Map<String, Object> map = new HashMap<>();
-		//		map.put("user", user);
-		//		map.put("cartRelationships", CartRelationships);
-		//String json = JSON.toJSONString(map);
-		return null;
+		//TODO 这里还有很多代码
+		if (storeAccountRe.size() == 1) {
+			//[code:1]--只有一个店面,直接进入首页
+
+			//获取账单信息，推送信息
+
+			return rs.go(ResultInfoImpl.TO_INDEX_VIEW, null).toJson();
+		} else {
+			//[code:2]--有多个店面,则直接进入[店面列表选择页]]
+			//获取店面信息
+			Set<BusinessStore> stores = new HashSet<>();
+			for (BusinessStoreAccountRelation relation : storeAccountRe) {
+				BusinessStore store = businessStoreDao.findById(relation.getStoreId());
+				stores.add(store);
+			}
+			return rs.go(ResultInfoImpl.TO_STORE_LIST_VIEW, stores).toJson();
+		}
 	}
 
 }
