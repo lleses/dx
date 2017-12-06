@@ -1,13 +1,7 @@
 package cn.dc.comm.wx.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.util.Arrays;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,14 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dc.comm.aes.Aes;
 import cn.dc.comm.dto.impl.ResultInfoImpl;
 import cn.dc.comm.reids.RedisUtil;
 import cn.dc.comm.wx.service.WxService;
 import cn.dc.db.module.busi.dao.BusinessRepository;
 import cn.dc.db.module.busi.entity.Business;
-import cn.dc.db.module.user.dao.UserRepository;
-import cn.dc.db.module.user.entity.User;
+import cn.dc.db.module.user.dao.ConsumerRepository;
+import cn.dc.db.module.user.entity.Consumer;
 
 /**
  * 微信接口相关
@@ -37,7 +30,7 @@ public class WxController {
 	@Autowired
 	private WxService wxService;
 	@Autowired
-	private UserRepository userDao;
+	private ConsumerRepository consumerDao;
 	@Autowired
 	private BusinessRepository businessDao;
 	@Autowired
@@ -88,14 +81,14 @@ public class WxController {
 			return rs.toJson();
 		}
 
-		User user = userDao.findByOpenid(wxOpenId);
-		if (user == null) {
-			user = new User();
-			user.setOpenid(wxOpenId);
-			user.setBusinessId(business.getId());
-			userDao.save(user);
+		Consumer consumer = consumerDao.findByOpenid(wxOpenId);
+		if (consumer == null) {
+			consumer = new Consumer();
+			consumer.setOpenid(wxOpenId);
+			consumer.setBusinessId(business.getId());
+			consumerDao.save(consumer);
 		}
-		sessionId = wxService.create3rdSession(request, wxOpenId, wxSessionKey, expires, user.getId());
+		sessionId = wxService.create3rdSession(request, wxOpenId, wxSessionKey, expires, consumer.getId());
 		return sessionId;
 	}
 
@@ -119,59 +112,59 @@ public class WxController {
 		return false;
 	}
 
-//	/**
-//	 * 验证用户信息完整性
-//	 * @param rawData	微信用户基本信息
-//	 * @param signature	数据签名
-//	 * @param sessionId	会话ID
-//	 * @return
-//	 */
-//	@RequestMapping(value = "checkUserInfo", method = RequestMethod.GET)
-//	public Boolean checkUserInfo(HttpServletRequest request, String rawData, String signature, String sessionId) {
-//		Object wxSessionObj = redisUtil.get(sessionId);
-//		if (null == wxSessionObj) {
-//			return false;
-//		}
-//		String wxSessionStr = (String) wxSessionObj;
-//		String sessionKey = wxSessionStr.split("#")[0];
-//		StringBuffer sb = new StringBuffer(rawData);
-//		sb.append(sessionKey);
-//
-//		byte[] encryData = DigestUtils.sha1(sb.toString());
-//		byte[] signatureData = signature.getBytes();
-//		Boolean checkStatus = Arrays.equals(encryData, signatureData);
-//		return checkStatus;
-//	}
-//
-//	/**
-//	 * 获取用户openId和unionId数据(如果没绑定微信开放平台，解密数据中不包含unionId)
-//	 * @param encryptedData 加密数据
-//	 * @param iv			加密算法的初始向量	
-//	 * @param sessionId		会话ID
-//	 * @return
-//	 */
-//	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET)
-//	public String decodeUserInfo(HttpServletRequest request, String encryptedData, String iv, String sessionId) {
-//		Object wxSessionObj = redisUtil.get(sessionId);
-//		if (null == wxSessionObj) {
-//			return "-1";
-//		}
-//		String wxSessionStr = (String) wxSessionObj;
-//		String sessionKey = wxSessionStr.split("#")[0];
-//
-//		try {
-//			Aes aes = new Aes();
-//			byte[] resultByte = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv));
-//			if (null != resultByte && resultByte.length > 0) {
-//				String userInfo = new String(resultByte, "UTF-8");
-//				return userInfo;
-//			}
-//		} catch (InvalidAlgorithmParameterException e) {
-//			e.printStackTrace();
-//		} catch (UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	//	/**
+	//	 * 验证用户信息完整性
+	//	 * @param rawData	微信用户基本信息
+	//	 * @param signature	数据签名
+	//	 * @param sessionId	会话ID
+	//	 * @return
+	//	 */
+	//	@RequestMapping(value = "checkUserInfo", method = RequestMethod.GET)
+	//	public Boolean checkUserInfo(HttpServletRequest request, String rawData, String signature, String sessionId) {
+	//		Object wxSessionObj = redisUtil.get(sessionId);
+	//		if (null == wxSessionObj) {
+	//			return false;
+	//		}
+	//		String wxSessionStr = (String) wxSessionObj;
+	//		String sessionKey = wxSessionStr.split("#")[0];
+	//		StringBuffer sb = new StringBuffer(rawData);
+	//		sb.append(sessionKey);
+	//
+	//		byte[] encryData = DigestUtils.sha1(sb.toString());
+	//		byte[] signatureData = signature.getBytes();
+	//		Boolean checkStatus = Arrays.equals(encryData, signatureData);
+	//		return checkStatus;
+	//	}
+	//
+	//	/**
+	//	 * 获取用户openId和unionId数据(如果没绑定微信开放平台，解密数据中不包含unionId)
+	//	 * @param encryptedData 加密数据
+	//	 * @param iv			加密算法的初始向量	
+	//	 * @param sessionId		会话ID
+	//	 * @return
+	//	 */
+	//	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET)
+	//	public String decodeUserInfo(HttpServletRequest request, String encryptedData, String iv, String sessionId) {
+	//		Object wxSessionObj = redisUtil.get(sessionId);
+	//		if (null == wxSessionObj) {
+	//			return "-1";
+	//		}
+	//		String wxSessionStr = (String) wxSessionObj;
+	//		String sessionKey = wxSessionStr.split("#")[0];
+	//
+	//		try {
+	//			Aes aes = new Aes();
+	//			byte[] resultByte = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv));
+	//			if (null != resultByte && resultByte.length > 0) {
+	//				String userInfo = new String(resultByte, "UTF-8");
+	//				return userInfo;
+	//			}
+	//		} catch (InvalidAlgorithmParameterException e) {
+	//			e.printStackTrace();
+	//		} catch (UnsupportedEncodingException e) {
+	//			e.printStackTrace();
+	//		}
+	//		return null;
+	//	}
 
 }
