@@ -12,6 +12,6 @@ import cn.dc.db.module.busi.entity.Business;
  */
 public interface BusinessRepository extends JpaRepository<Business, String> {
 
-	//	Business findByAppId(String appId);
+	Business findByAppId(String appId);
 
 }
