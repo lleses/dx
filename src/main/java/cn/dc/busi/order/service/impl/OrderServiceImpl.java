@@ -20,8 +20,8 @@ import cn.dc.db.module.order.dao.OrderRepository;
 import cn.dc.db.module.order.entity.Order;
 import cn.dc.db.module.product.dao.ProductRepository;
 import cn.dc.db.module.product.entity.Product;
-import cn.dc.db.module.user.dao.UserRepository;
-import cn.dc.db.module.user.entity.User;
+import cn.dc.db.module.user.dao.ConsumerRepository;
+import cn.dc.db.module.user.entity.Consumer;
 
 /**
  * 订单业务逻辑
@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private BusinessStoreRepository businessStoreDao;
 	@Autowired
-	private UserRepository userDao;
+	private ConsumerRepository consumerDao;
 
 	/**
 	 *  创建订单
@@ -83,8 +83,8 @@ public class OrderServiceImpl implements OrderService {
 		if (userId == null || storeId == null) {
 			return rs.errLog("值不能为空,userId=" + userId + ",storeId=" + storeId);
 		}
-		User user = userDao.findById(userId);
-		if (user == null) {
+		Consumer consumer = consumerDao.findById(userId);
+		if (consumer == null) {
 			return rs.errLog("用户不存在,userId=" + userId);
 		}
 		BusinessStore store = businessStoreDao.findById(storeId);
@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("order", order);
-		map.put("user", user);
+		map.put("consumer", consumer);
 		map.put("carts", carts);
 		return rs.succ(map, "操作成功");
 	}
@@ -112,9 +112,9 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	private Order calculateMoney(ResultInfoMapImpl<String, Object> rs) {
 		Order order = rs.getObject("order", Order.class);
-		User user = rs.getObject("user", User.class);
+		Consumer consumer = rs.getObject("consumer", Consumer.class);
 		List<Cart> carts = rs.getList("carts", Cart.class);
-		Integer level = user.getLevel();
+		Integer level = consumer.getLevel();
 		BigDecimal totalMoney = new BigDecimal(0);//总金额
 		BigDecimal actualMoney = new BigDecimal(0);//实收金额
 		for (Cart cart : carts) {
