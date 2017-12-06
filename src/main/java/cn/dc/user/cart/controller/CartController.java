@@ -12,8 +12,8 @@ import cn.dc.comm.dto.impl.ResultInfoImpl;
 import cn.dc.comm.reids.RedisUtil;
 import cn.dc.db.module.cart.dao.CartRepository;
 import cn.dc.db.module.cart.entity.Cart;
-import cn.dc.db.module.user.dao.UserRepository;
-import cn.dc.db.module.user.entity.User;
+import cn.dc.db.module.user.dao.ConsumerRepository;
+import cn.dc.db.module.user.entity.Consumer;
 
 /**
  * 购物车
@@ -25,7 +25,7 @@ public class CartController {
 	@Autowired
 	private CartRepository cartDao;
 	@Autowired
-	private UserRepository userDao;
+	private ConsumerRepository consumerDao;
 	@Autowired
 	private RedisUtil redisUtil;
 
@@ -41,7 +41,7 @@ public class CartController {
 			rs = rs.errLog("cart/toPay--值为空: userId=" + userId);
 			return rs.toJson();
 		}
-		User user = userDao.findById(userId);
+		Consumer user = consumerDao.findById(userId);
 		if (user == null) {
 			rs = rs.errLog("cart/toPay--user对象为空");
 			return rs.toJson();
