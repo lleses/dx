@@ -12,8 +12,8 @@ import cn.dc.db.comm.entity.AbstractBasicEntity;
  * @date 2017年12月6日
  */
 @Entity
-@Table(name = "t_user")
-public class User extends AbstractBasicEntity {
+@Table(name = "t_consumer")
+public class Consumer extends AbstractBasicEntity {
 
 	/** openid **/
 	private String openid;
