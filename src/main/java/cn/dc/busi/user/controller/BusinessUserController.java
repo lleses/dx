@@ -51,6 +51,9 @@ public class BusinessUserController {
 	@RequestMapping("checkBind")
 	public String checkBind(HttpServletRequest request, String sessionId) {
 		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		if (sessionId == null) {
+			return rs.errLog("busi/user/checkBind--sessionId为空").toJson();
+		}
 		String openId = redisUtil.getOpenId(sessionId);
 		if (openId == null) {
 			return rs.errLog("busi/user/checkBind--openId为空").toJson();
@@ -88,17 +91,25 @@ public class BusinessUserController {
 	//登陆
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, String username, String password, String sessionId) {
+		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		if (sessionId == null || username == null || password == null) {
+			return rs.errLog("busi/user/login--值为空,sessionId=" + sessionId + ",username=" + username + ",password=" + password).toJson();
+		}
 		String openId = redisUtil.getOpenId(sessionId);
+		if (openId == null) {
+			return rs.errLog("busi/user/login--openId为空").toJson();
+		}
+
 		password = IdUtils.md5(password);
 		BusinessAccount account = businessAccountDao.findByUsername(username);
 		if (account == null) {
-			return "账号不存在";
+			return rs.err("账号不存在").toJson();
 		}
+
 		//商家用户
 		BusinessUser user = businessUserDao.findByOpenId(openId);
 		if (user == null) {
-			user = new BusinessUser(openId, account.getId());
-			businessUserDao.save(user);
+			return rs.errLog("商家用户不存在").toJson();
 		}
 
 		//		Integer userId = redisUtil.getUserId(sessionId);

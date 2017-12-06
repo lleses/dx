@@ -12,7 +12,14 @@ import com.alibaba.fastjson.JSONObject;
 import cn.dc.comm.dto.ResultInfo;
 
 /**
- * 统一返回的结果集合
+ * 统一返回的结果集合<br>
+ * <br>
+ * 注意:<br>
+ * 符合正常逻辑，调用succ/err方法<br>
+ * 不符合正常逻辑，调用succLog/errLog(把信息记录在log日志里面)<br>
+ *  
+ * @author 余狄龙
+ * @date 2017年12月6日
  */
 public class ResultInfoMapImpl<K, V> extends AbstractResultInfo implements ResultInfo {
 
