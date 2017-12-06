@@ -1,4 +1,4 @@
-package cn.dc.comm.wx.controller;
+package cn.dc.user.wx.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,20 +11,20 @@ import com.alibaba.fastjson.JSONObject;
 
 import cn.dc.comm.dto.impl.ResultInfoImpl;
 import cn.dc.comm.reids.RedisUtil;
-import cn.dc.comm.wx.service.WxService;
 import cn.dc.db.module.busi.dao.BusinessRepository;
 import cn.dc.db.module.busi.entity.Business;
 import cn.dc.db.module.user.dao.ConsumerRepository;
 import cn.dc.db.module.user.entity.Consumer;
+import cn.dc.user.wx.service.WxService;
 
 /**
- * 微信接口相关
+ * 微信接口相关(消费者端)
  * 
  * @author 余狄龙
  * @date   2017年11月13日
  */
 @RestController
-@RequestMapping("wx")
+@RequestMapping("user/wx")
 public class WxController {
 
 	@Autowired

@@ -1,4 +1,4 @@
-package cn.dc.comm.wx.service;
+package cn.dc.busi.wx.service;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.dc.comm.config.WxConfig;
 import cn.dc.comm.reids.RedisUtil;
 import cn.dc.comm.utils.HttpUtils;
-import cn.dc.comm.wx.utils.WxConfig;
 import cn.dc.db.module.busi.entity.Business;
 
 @Service
