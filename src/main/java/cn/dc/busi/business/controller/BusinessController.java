@@ -41,16 +41,12 @@ public class BusinessController {
 	public String checkBind(HttpServletRequest request, String sessionId) {
 		String openId = redisUtil.getOpenId(sessionId);
 		//检查商家用户是否存在
-		
+
 		//如果不存在则返回登陆页
-		
-		
-		
+
 		//如果存在则直接进入首页
 		//获取店面id
-		
-		
-		
+
 		return null;
 	}
 
@@ -66,7 +62,7 @@ public class BusinessController {
 		//商家用户
 		BusinessUser user = businessUserDao.findByOpenId(openId);
 		if (user == null) {
-			user = new BusinessUser(openId, account.getId(), null, null);
+			user = new BusinessUser(openId, account.getId());
 			businessUserDao.save(user);
 		}
 

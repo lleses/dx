@@ -27,12 +27,10 @@ public class BusinessUser extends AbstractBasicEntity {
 	public BusinessUser() {
 	}
 
-	public BusinessUser(String openId, String accountId, String name, String nickname) {
+	public BusinessUser(String openId, String accountId) {
 		super();
 		this.openId = openId;
 		this.accountId = accountId;
-		this.name = name;
-		this.nickname = nickname;
 	}
 
 	/**

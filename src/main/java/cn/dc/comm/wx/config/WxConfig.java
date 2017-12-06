@@ -1,4 +1,4 @@
-package cn.dc.comm.config;
+package cn.dc.comm.wx.config;
 
 public class WxConfig {
 
