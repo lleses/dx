@@ -12,8 +12,8 @@ import cn.dc.Application;
 import cn.dc.comm.utils.HttpUtils;
 import cn.dc.db.module.cart.dao.CartRepository;
 import cn.dc.db.module.cart.entity.Cart;
-import cn.dc.db.module.user.dao.UserRepository;
-import cn.dc.db.module.user.entity.User;
+import cn.dc.db.module.user.dao.ConsumerRepository;
+import cn.dc.db.module.user.entity.Consumer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
@@ -23,7 +23,7 @@ public class OrderTests {
 	public static String storeId = "20171206064746743220354400523474";
 
 	@Autowired
-	private UserRepository userDao;
+	private ConsumerRepository consumerDao;
 	@Autowired
 	private CartRepository cartDao;
 
@@ -46,18 +46,18 @@ public class OrderTests {
 
 	/** 添加信息 **/
 	private void adds() {
-		User user = new User();
-		user.setOpenid("2123");
-		user.setBusinessId("20171206064746399997164295489568");
-		userDao.save(user);
+		Consumer consumers = new Consumer();
+		consumers.setOpenid("2123");
+		consumers.setBusinessId("20171206064746399997164295489568");
+		consumerDao.save(consumers);
 
 	}
 
 	/** 删除信息,用于初始化 **/
 	private void dels() {
-		List<User> users = userDao.findAll();
-		for (User user : users) {
-			userDao.delete(user);
+		List<Consumer> consumers = consumerDao.findAll();
+		for (Consumer consumer : consumers) {
+			consumerDao.delete(consumer);
 		}
 		List<Cart> carts = cartDao.findAll();
 		for (Cart cart : carts) {
