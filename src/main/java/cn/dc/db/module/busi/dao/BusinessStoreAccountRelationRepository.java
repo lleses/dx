@@ -1,5 +1,7 @@
 package cn.dc.db.module.busi.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import cn.dc.db.module.busi.entity.BusinessStoreAccountRelation;
@@ -12,4 +14,5 @@ import cn.dc.db.module.busi.entity.BusinessStoreAccountRelation;
  */
 public interface BusinessStoreAccountRelationRepository extends JpaRepository<BusinessStoreAccountRelation, String> {
 
+	List<BusinessStoreAccountRelation> findByAccountId(String accountId);
 }

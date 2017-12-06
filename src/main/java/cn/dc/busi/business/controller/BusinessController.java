@@ -36,48 +36,6 @@ public class BusinessController {
 	@Autowired
 	private RedisUtil redisUtil;
 
-	//检查是否已经绑定
-	@RequestMapping("checkBind")
-	public String checkBind(HttpServletRequest request, String sessionId) {
-		String openId = redisUtil.getOpenId(sessionId);
-		//检查商家用户是否存在
-
-		//如果不存在则返回登陆页
-
-		//如果存在则直接进入首页
-		//获取店面id
-
-		return null;
-	}
-
-	//登陆
-	@RequestMapping("login")
-	public String login(HttpServletRequest request, String username, String password, String sessionId) {
-		String openId = redisUtil.getOpenId(sessionId);
-		password = IdUtils.md5(password);
-		BusinessAccount account = businessAccountDao.findByUsername(username);
-		if (account == null) {
-			return "账号不存在";
-		}
-		//商家用户
-		BusinessUser user = businessUserDao.findByOpenId(openId);
-		if (user == null) {
-			user = new BusinessUser(openId, account.getId());
-			businessUserDao.save(user);
-		}
-
-		//		Integer userId = redisUtil.getUserId(sessionId);
-		//		User user = userDao.findById(userId);
-		//		Cart cart = cartDao.findByUserId(userId);
-		//		List<CartRelationship> CartRelationships = new ArrayList<>();
-		//		if (cart != null) {
-		//			CartRelationships = cartRelationshipDao.findByCartId(cart.getId());
-		//		}
-		//		Map<String, Object> map = new HashMap<>();
-		//		map.put("user", user);
-		//		map.put("cartRelationships", CartRelationships);
-		//String json = JSON.toJSONString(map);
-		return null;
-	}
+	
 
 }
