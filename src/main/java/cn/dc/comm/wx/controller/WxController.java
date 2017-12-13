@@ -68,7 +68,9 @@ public class WxController {
 				wxSession.getExpiresIn(), //
 				userId//
 		);
-		return sessionId;
+
+		ResultInfoImpl<String> rsJson = new ResultInfoImpl<>();
+		return rsJson.succ(sessionId).toJson();
 	}
 
 }
