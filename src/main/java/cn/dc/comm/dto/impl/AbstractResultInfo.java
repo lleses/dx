@@ -36,25 +36,8 @@ public abstract class AbstractResultInfo {
 	public boolean checkSucc() {
 		if (SUCC_CODE.equals(code)) {
 			return true;
-		} else if (ERROR_CODE.equals(code)) {
-			return false;
 		}
 		return false;
-	}
-
-	/**
-	 * 判断返回结果是否异常
-	 * 
-	 * @return 
-	 * 		true:异常 false:正常
-	 */
-	public boolean checkErr() {
-		if (SUCC_CODE.equals(code)) {
-			return false;
-		} else if (ERROR_CODE.equals(code)) {
-			return true;
-		}
-		return true;
 	}
 
 	public String getUrl() {

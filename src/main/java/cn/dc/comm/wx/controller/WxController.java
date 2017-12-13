@@ -19,7 +19,7 @@ import cn.dc.db.module.busi.entity.Business;
  * @date   2017年11月13日
  */
 @RestController
-@RequestMapping("busi/wx")
+@RequestMapping("wx")
 public class WxController {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class WxController {
 	public String createSession(HttpServletRequest request, String sessionId, String code, String appId, String clientType) {
 		//检查参数是否合法
 		ResultInfoImpl<Business> rsBusiness = wxService.checkParams(sessionId, code, appId, clientType);
-		if (rsBusiness.checkErr()) {
+		if (!rsBusiness.checkSucc()) {
 			return rsBusiness.toJson();
 		}
 
@@ -51,7 +51,7 @@ public class WxController {
 		//请求微信,获取Session
 		Business business = rsBusiness.getData();
 		ResultInfoImpl<WxSession> rs = wxService.getWxSession(code, business);
-		if (rs.checkErr()) {
+		if (!rs.checkSucc()) {
 			return rs.toJson();
 		}
 
@@ -70,60 +70,5 @@ public class WxController {
 		);
 		return sessionId;
 	}
-
-	//	/**
-	//	 * 验证用户信息完整性
-	//	 * @param rawData	微信用户基本信息
-	//	 * @param signature	数据签名
-	//	 * @param sessionId	会话ID
-	//	 * @return
-	//	 */
-	//	@RequestMapping(value = "checkUserInfo", method = RequestMethod.GET)
-	//	public Boolean checkUserInfo(HttpServletRequest request, String rawData, String signature, String sessionId) {
-	//		Object wxSessionObj = redisUtil.get(sessionId);
-	//		if (null == wxSessionObj) {
-	//			return false;
-	//		}
-	//		String wxSessionStr = (String) wxSessionObj;
-	//		String sessionKey = wxSessionStr.split("#")[0];
-	//		StringBuffer sb = new StringBuffer(rawData);
-	//		sb.append(sessionKey);
-	//
-	//		byte[] encryData = DigestUtils.sha1(sb.toString());
-	//		byte[] signatureData = signature.getBytes();
-	//		Boolean checkStatus = Arrays.equals(encryData, signatureData);
-	//		return checkStatus;
-	//	}
-	//
-	//	/**
-	//	 * 获取用户openId和unionId数据(如果没绑定微信开放平台，解密数据中不包含unionId)
-	//	 * @param encryptedData 加密数据
-	//	 * @param iv			加密算法的初始向量	
-	//	 * @param sessionId		会话ID
-	//	 * @return
-	//	 */
-	//	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET)
-	//	public String decodeUserInfo(HttpServletRequest request, String encryptedData, String iv, String sessionId) {
-	//		Object wxSessionObj = redisUtil.get(sessionId);
-	//		if (null == wxSessionObj) {
-	//			return "-1";
-	//		}
-	//		String wxSessionStr = (String) wxSessionObj;
-	//		String sessionKey = wxSessionStr.split("#")[0];
-	//
-	//		try {
-	//			Aes aes = new Aes();
-	//			byte[] resultByte = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv));
-	//			if (null != resultByte && resultByte.length > 0) {
-	//				String userInfo = new String(resultByte, "UTF-8");
-	//				return userInfo;
-	//			}
-	//		} catch (InvalidAlgorithmParameterException e) {
-	//			e.printStackTrace();
-	//		} catch (UnsupportedEncodingException e) {
-	//			e.printStackTrace();
-	//		}
-	//		return null;
-	//	}
 
 }

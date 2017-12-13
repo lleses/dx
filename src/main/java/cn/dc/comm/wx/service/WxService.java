@@ -102,6 +102,9 @@ public class WxService {
 		}
 		String sessionKey = wxSession.getString("session_key");
 		Long expiresIn = wxSession.getLong("expires_in");
+		if (expiresIn == null) {
+			expiresIn = 7200l;
+		}
 		return rs.succ(new WxSession(openid, sessionKey, expiresIn));
 	}
 

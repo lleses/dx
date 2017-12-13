@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 	public ResultInfo createOrder(Order order) {
 		//验证订单参数是否有误
 		ResultInfoMapImpl<String, Object> rs = checkParams(order);
-		if (rs.checkErr()) {
+		if (!rs.checkSucc()) {
 			return rs;
 		}
 		//计算金额,并装进order

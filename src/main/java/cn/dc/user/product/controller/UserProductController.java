@@ -1,5 +1,7 @@
 package cn.dc.user.product.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.dc.comm.dto.impl.ResultInfoImpl;
 import cn.dc.db.module.product.dao.ProductRepository;
+import cn.dc.db.module.product.dao.ProductTypeRepository;
 import cn.dc.db.module.product.entity.Product;
 import cn.dc.db.module.product.entity.ProductType;
 
@@ -19,10 +22,12 @@ import cn.dc.db.module.product.entity.ProductType;
  */
 @RestController
 @RequestMapping("user/product")
-public class ProductController {
+public class UserProductController {
 
 	@Autowired
 	private ProductRepository productDao;
+	@Autowired
+	private ProductTypeRepository productTypeDao;
 
 	@RequestMapping("detail")
 	public String detail(HttpServletRequest request, String id) {
@@ -34,6 +39,14 @@ public class ProductController {
 		Product product = productDao.findById(id);
 		rs = rs.succ(product);
 		String json = rs.toJson();
+		return json;
+	}
+
+	@RequestMapping("list")
+	public String list(HttpServletRequest request) {
+		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
+		List<ProductType> list = productTypeDao.findAll();
+		String json = rs.succ(list).toJson();
 		return json;
 	}
 

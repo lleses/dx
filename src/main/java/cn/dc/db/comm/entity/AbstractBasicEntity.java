@@ -23,7 +23,7 @@ public abstract class AbstractBasicEntity {
 	/** 修改时间 **/
 	private Date et;
 	/** 标记删除(true:逻辑删除 false:启用) **/
-	private boolean flagDel;
+	private Boolean flagDel;
 
 	public AbstractBasicEntity() {
 		this.id = IdUtils.id32();
@@ -77,14 +77,14 @@ public abstract class AbstractBasicEntity {
 	/**
 	 * 标记删除(true:逻辑删除 false:启用)
 	 */
-	public boolean isFlagDel() {
+	public Boolean isFlagDel() {
 		return flagDel;
 	}
 
 	/**
 	 * 标记删除(true:逻辑删除 false:启用)
 	 */
-	public void setFlagDel(boolean flagDel) {
+	public void setFlagDel(Boolean flagDel) {
 		this.flagDel = flagDel;
 	}
 
