@@ -29,7 +29,6 @@ public class BusinessUserController {
 	@Autowired
 	private BusinessUserService businessUserService;
 
-	//TODO 后续优化
 	/** 检查是否已经绑定 **/
 	@RequestMapping("checkBind")
 	public String checkBind(HttpServletRequest request, String sessionId) {
@@ -38,16 +37,14 @@ public class BusinessUserController {
 		if (!rs.checkSucc()) {
 			return rs.toJson();
 		}
-
-		ResultInfoMapImpl<String, Object> rs2 = businessUserService.toGo(rs);
-		return rs2.toJson();
+		return businessUserService.toGo(rs).toJson();
 	}
 
-	//登陆
+	/** 登陆 **/
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, String username, String password, String sessionId) {
 		//校验参数
-		ResultInfoMapImpl<String, Object> rsMap = businessUserService.checkBindCheckParams(sessionId);
+		ResultInfoMapImpl<String, Object> rsMap = businessUserService.loginCheckParams(sessionId, username, password);
 		if (!rsMap.checkSucc()) {
 			return rsMap.toJson();
 		}
@@ -58,9 +55,7 @@ public class BusinessUserController {
 		user.setAccountId(account.getId());
 		user.setEt(new Date());
 		businessUserDao.save(user);
-
-		ResultInfoMapImpl<String, Object> rs2 = businessUserService.toGo(rsMap);
-		return rs2.toJson();
+		return businessUserService.toGo(rsMap).toJson();
 	}
 
 }

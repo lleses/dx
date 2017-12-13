@@ -1,10 +1,8 @@
 package cn.dc.busi.user.service;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +13,8 @@ import cn.dc.comm.reids.RedisUtil;
 import cn.dc.comm.utils.IdUtils;
 import cn.dc.db.module.busi.dao.BusinessAccountRepository;
 import cn.dc.db.module.busi.dao.BusinessStoreAccountRelationRepository;
-import cn.dc.db.module.busi.dao.BusinessStoreRepository;
 import cn.dc.db.module.busi.dao.BusinessUserRepository;
 import cn.dc.db.module.busi.entity.BusinessAccount;
-import cn.dc.db.module.busi.entity.BusinessStore;
 import cn.dc.db.module.busi.entity.BusinessStoreAccountRelation;
 import cn.dc.db.module.busi.entity.BusinessUser;
 
@@ -28,8 +24,6 @@ public class BusinessUserService {
 	private BusinessUserRepository businessUserDao;
 	//	@Autowired
 	//	private BusinessRepository businessDao;
-	@Autowired
-	private BusinessStoreRepository businessStoreDao;
 	@Autowired
 	private BusinessAccountRepository businessAccountDao;
 	@Autowired
@@ -116,7 +110,7 @@ public class BusinessUserService {
 		map.put("storeAccountRe", storeAccountRe);
 		map.put("user", user);
 		map.put("account", account);
-		return rs.succ();
+		return rs.succ(map);
 
 	}
 
@@ -139,34 +133,23 @@ public class BusinessUserService {
 		return businessUser.getId();
 	}
 
-	//TODO 后续优化
 	/**
-	 * 跳转
+	 * 跳转<br>
 	 * 
+	 * 如果还没绑定，进入[登陆页]<br>
+	 * 如果已经绑定，有一个店面,进入[首页]<br>
+	 * 如果已经绑定，有多个店面,进入[店面列表选择页]<br>
 	 */
 	public ResultInfoMapImpl<String, Object> toGo(ResultInfoMapImpl<String, Object> rs) {
-		//如果还没绑定，进入[登陆页]
-		//如果已经绑定，有一个店面,进入[首页]
-		//如果已经绑定，有多个店面,进入[店面列表选择页]
 		List<BusinessStoreAccountRelation> storeAccountRe = rs.getList("storeAccountRe", BusinessStoreAccountRelation.class);
-		Map<String, Object> map = new HashMap<>();
-		//TODO 这里还有很多代码
 		if (storeAccountRe.size() == 1) {
-			//[code:1]--只有一个店面,直接进入首页
-
-			//获取账单信息，推送信息
-
-			return rs.go(ResultInfoImpl.TO_INDEX_VIEW, null);
+			//只有一个店面,直接进入首页
+			Map<String, Object> map = new HashMap<>();
+			map.put("storeId", storeAccountRe.get(0).getId());
+			return rs.go(ResultInfoImpl.TO_INDEX_VIEW, map);
 		} else {
-			//[code:2]--有多个店面,则直接进入[店面列表选择页]]
-			//获取店面信息
-			Set<BusinessStore> stores = new HashSet<>();
-			for (BusinessStoreAccountRelation relation : storeAccountRe) {
-				BusinessStore store = businessStoreDao.findById(relation.getStoreId());
-				stores.add(store);
-			}
-			map.put("stores", stores);
-			return rs.go(ResultInfoImpl.TO_STORE_LIST_VIEW, map);
+			//有多个店面,则直接进入[店面列表选择页]]
+			return rs.go(ResultInfoImpl.TO_STORE_LIST_VIEW, null);
 		}
 	}
 
