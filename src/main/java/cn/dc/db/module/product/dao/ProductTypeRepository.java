@@ -1,5 +1,7 @@
 package cn.dc.db.module.product.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import cn.dc.db.module.product.entity.ProductType;
@@ -13,5 +15,6 @@ import cn.dc.db.module.product.entity.ProductType;
 public interface ProductTypeRepository extends JpaRepository<ProductType, Long> {
 
 	ProductType findByNameAndStoreId(String name, String storeId);
-	//	List<CommodityType> findByAppId(String appId);
+
+	List<ProductType> findByStoreId(String storeId);
 }

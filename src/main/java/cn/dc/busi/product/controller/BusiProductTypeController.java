@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.dc.comm.dto.impl.ResultInfoImpl;
-import cn.dc.comm.utils.ParamUtils;
 import cn.dc.db.module.product.dao.ProductRepository;
 import cn.dc.db.module.product.dao.ProductTypeRepository;
 import cn.dc.db.module.product.entity.Product;
@@ -23,29 +22,15 @@ import cn.dc.db.module.product.entity.ProductType;
  */
 @RestController
 @RequestMapping("busi/productType")
-public class ProductTypeController {
+public class BusiProductTypeController {
 	@Autowired
 	private ProductTypeRepository productTypeDao;
 	@Autowired
 	private ProductRepository productDao;
 
-	@RequestMapping("list")
-	public String list(HttpServletRequest request) {
-		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
-		List<ProductType> list = productTypeDao.findAll();
-		String json = rs.succ(list).toJson();
-		return json;
-	}
-
 	@RequestMapping("save")
-	public String save(HttpServletRequest request) {
+	public String save(HttpServletRequest request, String name, String storeId) {
 		ResultInfoImpl<Object> rs = new ResultInfoImpl<>();
-		String name = ParamUtils.getStr(request, "name");
-		String storeId = ParamUtils.getStr(request, "storeId");
-		if (name == null || storeId == null) {
-			rs = rs.errLog("productType/save--值为空: name=" + name + ",storeId=" + storeId);
-			return rs.toJson();
-		}
 		ProductType productType = productTypeDao.findByNameAndStoreId(name, storeId);
 		if (null != productType) {
 			rs = rs.err("菜单类型已经存在");
@@ -53,8 +38,8 @@ public class ProductTypeController {
 		}
 		productType = new ProductType(name, storeId);
 		productTypeDao.save(productType);
-		rs = rs.succ();
-		return rs.toJson();
+		List<ProductType> productTypes = productTypeDao.findByStoreId(storeId);
+		return rs.succ(productTypes).toJson();
 	}
 
 	@RequestMapping("del")
