@@ -15,6 +15,7 @@ import cn.dc.comm.dto.impl.ResultInfoMapImpl;
 import cn.dc.db.module.product.dao.ProductRepository;
 import cn.dc.db.module.product.dao.ProductTypeRepository;
 import cn.dc.db.module.product.entity.Product;
+import cn.dc.db.module.product.entity.ProductStatusEnum;
 import cn.dc.db.module.product.entity.ProductType;
 
 /**
@@ -34,10 +35,13 @@ public class BusiProductController {
 
 	@RequestMapping("toSave")
 	public String toSave(HttpServletRequest request, String storeId, String id) {
+		String[] units = { "碟", "半打", "锅", "2只", "份", "串", "条", "包", "打", "大煲", "中煲", //
+				"小煲", "碗", "煲", "时价", "例", "斤", "只", "半只" };
 		ResultInfoMapImpl<String, Object> rs = new ResultInfoMapImpl<>();
 		Map<String, Object> map = new HashMap<>();
 		List<ProductType> productTypes = productTypeDao.findByStoreId(storeId);
 		map.put("productTypes", productTypes);
+		map.put("units", units);
 		if (id != null || !"".equals(id)) {
 			Product product = productDao.findById(id);
 			map.put("product", product);
@@ -52,6 +56,7 @@ public class BusiProductController {
 			rs = rs.errLog("product/save--值为空");
 			return rs.toJson();
 		}
+		product.setProductStatus(ProductStatusEnum.SJ);
 		product.setProductType(new ProductType(productTypeId));
 		productDao.save(product);
 		return rs.succ().toJson();

@@ -50,16 +50,15 @@ public class BusiProductTypeController {
 			return rs.toString();
 		}
 
-		//TODO测试
-		List<Product> products = productDao.findByProductType(productType.getId());
+		List<Product> products = productDao.findByProductTypeId(productType.getId());
 		for (Product product : products) {
 			productDao.delete(product);
 		}
 
 		productTypeDao.delete(productType);
-		List<ProductType> arr = productTypeDao.findAll();
-		rs = rs.succ(arr);
-		return rs.toJson();
+
+		List<ProductType> productTypes = productTypeDao.findByStoreId(productType.getStoreId());
+		return rs.succ(productTypes).toJson();
 	}
 
 }
