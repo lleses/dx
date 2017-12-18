@@ -85,4 +85,18 @@ public class ProductType extends AbstractBasicEntity {
 		this.serialNum = serialNum;
 	}
 
+	/**
+	 * 产品
+	 */
+	public Set<Product> getProduct() {
+		return product;
+	}
+
+	/**
+	 * 产品
+	 */
+	public void setProduct(Set<Product> product) {
+		this.product = product;
+	}
+
 }

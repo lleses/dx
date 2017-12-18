@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import cn.dc.db.comm.entity.AbstractBasicEntity;
 
 /**
@@ -27,6 +29,7 @@ public class Product extends AbstractBasicEntity {
 	/** 菜品类型 **/
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_productType", nullable = false)
+	@JSONField(serialize = false)
 	private ProductType productType;
 	/** 名称 **/
 	private String name;

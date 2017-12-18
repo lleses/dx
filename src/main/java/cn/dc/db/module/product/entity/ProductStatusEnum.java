@@ -25,4 +25,15 @@ public enum ProductStatusEnum {
 		return val;
 	}
 
+	public static ProductStatusEnum getObj(String key) {
+		if ("SJ".equals(key)) {
+			return ProductStatusEnum.SJ;
+		} else if ("XJ".equals(key)) {
+			return ProductStatusEnum.XJ;
+		} else if ("GQ".equals(key)) {
+			return ProductStatusEnum.GQ;
+		}
+		return null;
+	}
+
 }

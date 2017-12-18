@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import cn.dc.db.module.product.entity.Product;
+import cn.dc.db.module.product.entity.ProductStatusEnum;
 
 /**
  * 产品
@@ -17,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Product findById(String id);
 
 	List<Product> findByProductTypeId(String productTypeId);
+
+	List<Product> findByStoreIdAndProductStatusNot(String storeId, ProductStatusEnum productStatus);
 }
