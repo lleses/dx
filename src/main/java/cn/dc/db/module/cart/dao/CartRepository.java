@@ -14,8 +14,10 @@ import cn.dc.db.module.cart.entity.Cart;
  */
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-	Cart findByUserId(String userId);
+	List<Cart> findByUserId(String userId);
 
 	List<Cart> findByUserIdAndStoreId(String userId, String storeId);
+
+	Cart findByUserIdAndStoreIdAndProductId(String userId, String storeId, String productId);
 
 }

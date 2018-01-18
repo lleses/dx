@@ -91,8 +91,10 @@ public class OrderServiceImpl implements OrderService {
 		if (store == null) {
 			return rs.errLog("店铺不存在,storeId=" + storeId);
 		}
-		List<Cart> carts = cartDao.findByUserIdAndStoreId(userId, storeId);
-		if (carts == null || carts.isEmpty()) {
+		//TODO
+		Cart carts = null;
+		//Cart carts = cartDao.findByUserIdAndStoreId(userId, storeId);
+		if (carts == null) {
 			return rs.errLog("购物车不存在,userId=" + userId + ",storeId=" + storeId);
 		}
 		Map<String, Object> map = new HashMap<>();

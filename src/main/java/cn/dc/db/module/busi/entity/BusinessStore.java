@@ -19,6 +19,12 @@ public class BusinessStore extends AbstractBasicEntity {
 	private String name;
 	/** 商家ID **/
 	private String businessId;
+	/** 地址 **/
+	private String address;
+	/** 店铺图片 **/
+	private String imgPath;
+	/** 店铺logo **/
+	private String logo;
 	/** 积分功能开关,默认关闭 (true:开启 false:关闭) **/
 	private boolean integralSwitch;
 	/** 积分兑换比例(例如  1000, 相当于1000积分等于1块) **/
@@ -70,6 +76,20 @@ public class BusinessStore extends AbstractBasicEntity {
 	 */
 	public void setBusinessId(String businessId) {
 		this.businessId = businessId;
+	}
+
+	/**
+	 * 地址
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * 地址
+	 */
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/**
@@ -140,6 +160,34 @@ public class BusinessStore extends AbstractBasicEntity {
 	 */
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+
+	/**
+	 * 店铺图片
+	 */
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	/**
+	 * 店铺图片
+	 */
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+
+	/**
+	 * 店铺logo
+	 */
+	public String getLogo() {
+		return logo;
+	}
+
+	/**
+	 * 店铺logo
+	 */
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 
 }

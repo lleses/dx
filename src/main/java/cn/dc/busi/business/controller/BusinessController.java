@@ -26,22 +26,15 @@ import cn.dc.db.module.busi.entity.BusinessUser;
 @RequestMapping("busi")
 public class BusinessController {
 
-	//	@Autowired
-	//	private BusinessRepository businessDao;
 	@Autowired
 	private BusinessStoreRepository businessStoreDao;
-	//	@Autowired
-	//	private BusinessAccountRepository businessAccountDao;
 	@Autowired
 	private BusinessStoreAccountRelationRepository businessStoreAccountRelationDao;
 	@Autowired
 	private BusinessUserRepository businessUserDao;
-	//	@Autowired
-	//	private BusinessUserPushRepository businessUserPushDao;
 	@Autowired
 	private RedisUtil redisUtil;
 
-	//TODO
 	//订单信息
 	//推送信息
 	@RequestMapping("index")
