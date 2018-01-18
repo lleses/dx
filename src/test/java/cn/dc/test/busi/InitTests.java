@@ -1,4 +1,4 @@
-package cn.dc.test.admin;
+package cn.dc.test.busi;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import cn.dc.db.module.busi.entity.BusinessUserPush;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
-public class BusiInitTests {
+public class InitTests {
 
 	@Autowired
 	private BusinessRepository businessDao;
@@ -41,36 +41,30 @@ public class BusiInitTests {
 	private BusinessUserPushRepository businessUserPushDao;
 
 	@Test
-	public void test() throws Exception {
-		busiInit();
+	public void handle() throws Exception {
+		init1();
 	}
 
-	private void busiInit() {
+	private void init1() {
 		dels();
 		adds();
 	}
 
-	/** 添加信息 **/
 	private void adds() {
-		//商家
-		Business Business = new Business("wx198ab4de814c9787", "1613b6bc9dee35166320bc37e9b6e77f", "上云");
-		businessDao.save(Business);
+		//添加上云商家
+		String appId = "wx198ab4de814c9787";
+		String appSecret = "1613b6bc9dee35166320bc37e9b6e77f";
+		Business business = new Business(appId, appSecret, "上云");
+		businessDao.save(business);
 		//店铺
-		BusinessStore store = new BusinessStore("上云1", Business.getId());
-		store.setAddress("123445");
+		BusinessStore store = new BusinessStore("上云", business.getId());
 		businessStoreDao.save(store);
-		BusinessStore store2 = new BusinessStore("上云2", Business.getId());
-		store2.setAddress("123445");
-		businessStoreDao.save(store2);
 		//账号
-		BusinessAccount account = new BusinessAccount("123", IdUtils.md5("123"));
+		BusinessAccount account = new BusinessAccount("didi", IdUtils.md5("didi"));
 		businessAccountDao.save(account);
 		//账号-店铺关系
 		BusinessStoreAccountRelation saRelation = new BusinessStoreAccountRelation(account.getId(), store.getId());
 		businessStoreAccountRelationDao.save(saRelation);
-		BusinessStoreAccountRelation saRelation2 = new BusinessStoreAccountRelation(account.getId(), store2.getId());
-		businessStoreAccountRelationDao.save(saRelation2);
-
 	}
 
 	/** 删除信息,用于初始化 **/
